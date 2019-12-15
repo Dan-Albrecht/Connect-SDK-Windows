@@ -27,7 +27,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
-using Windows.Data.Json;
+using Newtonsoft.Json;
 using ConnectSdk.Windows.Annotations;
 using ConnectSdk.Windows.Core;
 using ConnectSdk.Windows.Discovery;

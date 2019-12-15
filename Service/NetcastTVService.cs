@@ -29,7 +29,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
-using Windows.Data.Json;
+using Newtonsoft.Json;
 using Windows.Foundation;
 using ConnectSdk.Windows.Core;
 using ConnectSdk.Windows.Discovery;

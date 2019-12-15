@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Net.Http;
-using Windows.Data.Json;
+using Newtonsoft.Json;
 using ConnectSdk.Windows.Service.Capability.Listeners;
 using ConnectSdk.Windows.Service.Command;
 

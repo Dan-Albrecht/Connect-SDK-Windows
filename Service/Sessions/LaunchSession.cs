@@ -21,7 +21,7 @@
  #endregion
 using System;
 using System.Collections.Generic;
-using Windows.Data.Json;
+using Newtonsoft.Json;
 using ConnectSdk.Windows.Core;
 using ConnectSdk.Windows.Service.Capability.Listeners;
 

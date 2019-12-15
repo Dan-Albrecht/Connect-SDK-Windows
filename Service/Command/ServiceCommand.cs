@@ -21,7 +21,7 @@
  #endregion
 using System;
 using System.Net.Http;
-using Windows.Data.Json;
+using Newtonsoft.Json;
 using ConnectSdk.Windows.Service.Capability.Listeners;
 
 namespace ConnectSdk.Windows.Service.Command

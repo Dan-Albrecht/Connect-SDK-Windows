@@ -22,7 +22,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Windows.Data.Json;
+using Newtonsoft.Json;
 using ConnectSdk.Windows.Core;
 using ConnectSdk.Windows.Service.Capability.Listeners;
 using ConnectSdk.Windows.Service.Command;

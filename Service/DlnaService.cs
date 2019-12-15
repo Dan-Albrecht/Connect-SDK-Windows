@@ -30,7 +30,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Xml;
 using Windows.Data.Html;
-using Windows.Data.Json;
+using Newtonsoft.Json;
 using Windows.Data.Xml.Dom;
 using Windows.Networking.Sockets;
 using Windows.Storage.Streams;

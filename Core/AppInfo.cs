@@ -21,7 +21,7 @@
  #endregion
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Windows.Data.Json;
+using Newtonsoft.Json;
 using ConnectSdk.Windows.Annotations;
 
 namespace ConnectSdk.Windows.Core

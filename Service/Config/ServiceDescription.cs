@@ -21,7 +21,7 @@
  #endregion
 using System;
 using System.Collections.Generic;
-using Windows.Data.Json;
+using Newtonsoft.Json;
 
 namespace ConnectSdk.Windows.Service.Config
 {

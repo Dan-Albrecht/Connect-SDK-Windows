@@ -19,7 +19,7 @@
  * limitations under the License.
  */
  #endregion
-using Windows.Data.Json;
+using Newtonsoft.Json;
 
 namespace ConnectSdk.Windows.Core
 {

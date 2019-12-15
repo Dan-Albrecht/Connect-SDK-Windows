@@ -20,7 +20,7 @@
  */
  #endregion
 using System;
-using Windows.Data.Json;
+using Newtonsoft.Json;
 using ConnectSdk.Windows.Core;
 using ConnectSdk.Windows.Service.Capability;
 using ConnectSdk.Windows.Service.Capability.Listeners;

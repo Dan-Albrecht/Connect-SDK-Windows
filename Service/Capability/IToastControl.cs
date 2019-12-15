@@ -19,7 +19,7 @@
  * limitations under the License.
  */
  #endregion
-using Windows.Data.Json;
+using Newtonsoft.Json;
 using ConnectSdk.Windows.Core;
 using ConnectSdk.Windows.Service.Capability.Listeners;
 

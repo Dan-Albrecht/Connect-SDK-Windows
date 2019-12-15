@@ -20,7 +20,7 @@
  */
  #endregion
 using System;
-using Windows.Data.Json;
+using Newtonsoft.Json;
 using Windows.Security.Cryptography.Certificates;
 
 namespace ConnectSdk.Windows.Service.Config
