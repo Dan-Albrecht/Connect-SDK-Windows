@@ -5,7 +5,10 @@ For more information, visit our [website](http://www.connectsdk.com/).
 
 * [General information about Connect SDK](http://www.connectsdk.com/discover/)
 
-##Including Connect SDK in your app
+## Fork Info
+This fork targets .NET Standard 2.0.
+
+## Including Connect SDK in your app
 * Clone this repository
 * Include the ConnectSDK.Windows project into your solution by right clicking your solution name, select add existing project and selecting the ConnectSdk.Windows.csproj file
 * Reference ConnectSDK.Windows from the project you want to use it by right clicking the project name, choose add refference and select the ConnectSDK.Windows project)
@@ -21,10 +24,10 @@ The basics are:
 * call to connect to the device (like [here](https://github.com/ConnectSDK/Connect-SDK-Windows-Sampler/blob/master/ConnectSdk.Demo/ConnectSdk.Demo.WindowsPhone/Search.xaml.cs))
 * use the device object to interact with it
 
-##Contact
+## Contact
 * Add any issues [here](https://github.com/ConnectSDK/Connect-SDK-Windows/issues)
 
-##License
+## License
 Copyright (c) 2015, [SDaemon](https://github.com/sdaemon).
 
 Licensed under the Apache License, Version 2.0 (the "License");
