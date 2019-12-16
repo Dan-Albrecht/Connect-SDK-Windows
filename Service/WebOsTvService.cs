@@ -18,13 +18,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- #endregion
+#endregion
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json;
-using Windows.Foundation;
 using ConnectSdk.Windows.Core;
 using ConnectSdk.Windows.Device;
 using ConnectSdk.Windows.Discovery;

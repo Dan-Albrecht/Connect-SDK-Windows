@@ -18,17 +18,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- #endregion
+#endregion
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
-using Windows.Networking.Sockets;
-using Windows.Storage;
-using Windows.Storage.Streams;
 using ConnectSdk.Windows.Service.Command;
 
 namespace ConnectSdk.Windows.Service.Upnp

@@ -18,12 +18,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- #endregion
+#endregion
 using System;
 using System.Diagnostics;
 using System.Text;
-using Windows.Networking.Sockets;
-using Windows.Storage.Streams;
 using ConnectSdk.Windows.Etc.Helper;
 
 namespace ConnectSdk.Windows.Service.WebOs

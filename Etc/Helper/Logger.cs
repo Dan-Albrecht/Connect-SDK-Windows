@@ -18,13 +18,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- #endregion
+#endregion
 using System;
 using System.Text;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
-using Windows.Foundation.Diagnostics;
-using Windows.Storage;
 
 namespace ConnectSdk.Windows.Etc.Helper
 {

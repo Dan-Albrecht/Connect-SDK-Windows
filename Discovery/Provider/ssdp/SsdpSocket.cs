@@ -18,13 +18,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- #endregion
+#endregion
 using System;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
-using Windows.Networking;
-using Windows.Networking.Connectivity;
 using ConnectSdk.Windows.Core.Upnp.Ssdp;
 using ConnectSdk.Windows.Etc.Helper;
 using ConnectSdk.Windows.Wrappers;

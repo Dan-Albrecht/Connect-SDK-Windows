@@ -18,10 +18,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- #endregion
+#endregion
 using System;
-using Newtonsoft.Json;
-using Windows.Security.Cryptography.Certificates;
 
 namespace ConnectSdk.Windows.Service.Config
 {

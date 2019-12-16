@@ -18,7 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- #endregion
+#endregion
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -29,8 +29,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
-using Newtonsoft.Json;
-using Windows.Foundation;
 using ConnectSdk.Windows.Core;
 using ConnectSdk.Windows.Discovery;
 using ConnectSdk.Windows.Etc.Helper;

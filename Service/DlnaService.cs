@@ -18,27 +18,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- #endregion
+#endregion
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Xml;
-using Windows.Data.Html;
-using Newtonsoft.Json;
-using Windows.Data.Xml.Dom;
-using Windows.Networking.Sockets;
-using Windows.Storage.Streams;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Markup;
-using ConnectSdk.Windows.Annotations;
 using ConnectSdk.Windows.Core;
-using ConnectSdk.Windows.Core.Upnp.Ssdp;
 using ConnectSdk.Windows.Discovery;
 using ConnectSdk.Windows.Etc.Helper;
 using ConnectSdk.Windows.Service.Capability;

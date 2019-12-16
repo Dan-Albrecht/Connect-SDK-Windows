@@ -18,8 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- #endregion
-using Newtonsoft.Json;
+#endregion
 using ConnectSdk.Windows.Service.Command;
 
 namespace ConnectSdk.Windows.Service.WebOs

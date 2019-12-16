@@ -18,9 +18,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- #endregion
+#endregion
 using System;
-using Newtonsoft.Json;
 using ConnectSdk.Windows.Core;
 using ConnectSdk.Windows.Service.Capability;
 using ConnectSdk.Windows.Service.Capability.Listeners;
@@ -28,7 +27,7 @@ using ConnectSdk.Windows.Service.Command;
 
 namespace ConnectSdk.Windows.Service.Sessions
 {
-   public class WebAppSession : IMediaControl, IMediaPlayer
+    public class WebAppSession : IMediaControl, IMediaPlayer
     {
         public WebAppSession(LaunchSession launchSession, DeviceService service)
         {

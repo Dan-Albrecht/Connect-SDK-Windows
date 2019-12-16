@@ -18,10 +18,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- #endregion
+#endregion
 using System;
 using System.Net.Http;
-using Newtonsoft.Json;
 using ConnectSdk.Windows.Service.Capability.Listeners;
 
 namespace ConnectSdk.Windows.Service.Command

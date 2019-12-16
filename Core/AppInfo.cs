@@ -18,10 +18,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- #endregion
+#endregion
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Newtonsoft.Json;
 using ConnectSdk.Windows.Annotations;
 
 namespace ConnectSdk.Windows.Core

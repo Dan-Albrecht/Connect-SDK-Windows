@@ -18,14 +18,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- #endregion
+#endregion
 using System;
 using System.IO;
-using Windows.Foundation;
-using Windows.Networking;
-using Windows.Networking.Connectivity;
-using Windows.Networking.Sockets;
-using Windows.Storage.Streams;
 using ConnectSdk.Windows.Fakes;
 
 namespace ConnectSdk.Windows.Wrappers

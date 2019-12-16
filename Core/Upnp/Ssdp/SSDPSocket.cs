@@ -1,10 +1,7 @@
 using System;
 using System.IO;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
-using Windows.Networking.Connectivity;
-using Windows.Storage.Streams;
 
 namespace ConnectSdk.Windows.Core.Upnp.Ssdp
 {

@@ -18,7 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- #endregion
+#endregion
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -27,7 +27,6 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
-using Newtonsoft.Json;
 using ConnectSdk.Windows.Annotations;
 using ConnectSdk.Windows.Core;
 using ConnectSdk.Windows.Discovery;
