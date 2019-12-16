@@ -28,6 +28,7 @@ using ConnectSdk.Windows.Wrappers;
 
 namespace ConnectSdk.Windows.Discovery.Provider.ssdp
 {
+    // BUGBUG: This class is hacked off
     public class SsdpSocket
     {
         /// <summary>
@@ -52,9 +53,9 @@ namespace ConnectSdk.Windows.Discovery.Provider.ssdp
         /// </summary>
         /// <param name="data">The SSDP packet</param>
         /// <returns>unused</returns>
-        public async Task<int> Send(string data)
+        public Task<int> Send(string data)
         {
-
+            /*
             socket = new DatagramSocketWrapper();
             var profile = NetworkInformation.GetInternetConnectionProfile();
 
@@ -84,8 +85,8 @@ namespace ConnectSdk.Windows.Discovery.Provider.ssdp
             socket.JoinMulticastGroup(remoteHost);
             IsConnected = !IsConnected;
 
-            return 0;
-
+            return 0;*/
+            return Task.FromResult(0);
         }
 
         private void HandleDatagramMessage(string message)
@@ -101,10 +102,6 @@ namespace ConnectSdk.Windows.Discovery.Provider.ssdp
 
         public void Close()
         {
-            if (socket != null)
-            {
-                socket.Dispose();
-            }
         }
     }
 }
