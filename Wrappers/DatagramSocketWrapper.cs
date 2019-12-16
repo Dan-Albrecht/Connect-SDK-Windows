@@ -19,26 +19,31 @@
  * limitations under the License.
  */
 #endregion
-using System;using Newtonsoft.Json;using Newtonsoft.Json.Linq;
+using System;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.IO;
 using ConnectSdk.Windows.Fakes;
+using System.Threading.Tasks;
 
 namespace ConnectSdk.Windows.Wrappers
 {
-    public class DatagramSocketWrapper : IDisposable
+    public class DatagramSocketWrapper
     {
-        private DatagramSocket socket;
+        // BUGBUG: Move this the UdpClient
+        //private DatagramSocket socket;
         public event EventHandler<string> MessageReceived;
 
-        public IAsyncAction BindServiceNameAsync(string localServiceName, NetworkAdapter adapter)
+        public Task BindServiceNameAsync(string localServiceName, object adapter)
         {
-            return socket.BindServiceNameAsync(localServiceName, adapter);
+            //return socket.BindServiceNameAsync(localServiceName, adapter);
+            return Task.CompletedTask;
         }
 
         public DatagramSocketWrapper()
         {
-            socket = new DatagramSocket();
-            socket.MessageReceived += SocketOnMessageReceived;
+            /*socket = new DatagramSocket();
+            socket.MessageReceived += SocketOnMessageReceived;*/
 
             if (MessageFakeFactory.Instance != null)
             {
@@ -50,7 +55,7 @@ namespace ConnectSdk.Windows.Wrappers
             }
         }
 
-        private void SocketOnMessageReceived(DatagramSocket sender, DatagramSocketMessageReceivedEventArgs args)
+        /*private void SocketOnMessageReceived(DatagramSocket sender, DatagramSocketMessageReceivedEventArgs args)
         {
             if (MessageReceived != null)
             {
@@ -60,27 +65,22 @@ namespace ConnectSdk.Windows.Wrappers
                     MessageReceived(this, response);
                 }
             }
-        }
+        }*/
 
-        public IAsyncOperation<IOutputStream> GetOutputStreamAsync(HostName remoteHostName, string remoteServiceName)
+        public Task<Stream> GetOutputStreamAsync(string remoteHostName, string remoteServiceName)
         {
-            return socket.GetOutputStreamAsync(remoteHostName, remoteServiceName);
+            //return socket.GetOutputStreamAsync(remoteHostName, remoteServiceName);
+            return Task.FromResult<Stream>(null);
         }
 
-        public void JoinMulticastGroup(HostName host)
+        public void JoinMulticastGroup(string host)
         {
             if (MessageFakeFactory.Instance != null)
             {
                 MessageFakeFactory.Instance.StartJoinMulticastGroup();
             }
-            else
-                socket.JoinMulticastGroup(host);
-        }
-
-        public void Dispose()
-        {
-            MessageReceived = null;
-            socket = null;
+            /*else
+                socket.JoinMulticastGroup(host);*/
         }
     }
 }
