@@ -26,9 +26,10 @@ using ConnectSdk.Windows.Etc.Helper;
 
 namespace ConnectSdk.Windows.Service.WebOs
 {
+    // BUGBUG: Hacked off
     public class WebOstvMouseSocketConnection
     {
-        MessageWebSocket ws;
+        //MessageWebSocket ws;
         readonly String socketPath;
         private bool isConnected;
 
@@ -43,7 +44,7 @@ namespace ConnectSdk.Windows.Service.WebOs
 
         private void CreateSocket()
         {
-            ws = new MessageWebSocket();
+            /*ws = new MessageWebSocket();
             ws.Control.MessageType = SocketMessageType.Utf8;
             ws.MessageReceived += (sender, args) =>
             {
@@ -60,7 +61,7 @@ namespace ConnectSdk.Windows.Service.WebOs
             };
             ws.Closed += (sender, args) =>
             {
-            };
+            };*/
         }
 
         public void OnMessage(String data)
@@ -68,9 +69,9 @@ namespace ConnectSdk.Windows.Service.WebOs
             //this.handleMessage(data);
         }
 
-        public async void Connect()
+        public void Connect()
         {
-            try
+            /*try
             {
                 if (ws.Information.LocalAddress == null)
                 {
@@ -84,17 +85,17 @@ namespace ConnectSdk.Windows.Service.WebOs
                 var status = WebSocketError.GetStatus(ex.GetBaseException().HResult);
                 isConnected = false;
                 
-            }
+            }*/
         }
 
         public void Disconnect()
         {
-            if (ws != null)
+            /*if (ws != null)
             {
                 isConnected = false;
                 ws.Dispose();
                 ws = null;
-            }
+            }*/
         }
 
         public bool IsConnected()
@@ -184,11 +185,11 @@ namespace ConnectSdk.Windows.Service.WebOs
             }
         }
 
-        private DataWriter messageWriter;
+        //private DataWriter messageWriter;
 
         private void Send(string sb)
         {
-            if (isConnected)
+            /*if (isConnected)
             {
                 ws.Control.MessageType = SocketMessageType.Utf8;
                 ws.OutputStream.FlushAsync().GetResults();
@@ -197,7 +198,7 @@ namespace ConnectSdk.Windows.Service.WebOs
                 messageWriter.WriteString(sb);
                 messageWriter.StoreAsync();
                 Debug.WriteLine("{0} : {1} : {2}", DateTime.Now, "sent", sb);
-            }
+            }*/
         }
 
         public void Move(double dx, double dy)
