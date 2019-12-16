@@ -1297,7 +1297,7 @@ namespace ConnectSdk.Windows.Service
             //};
         }
 
-        private DispatcherTimer resubscriptionTimer;
+        //private DispatcherTimer resubscriptionTimer;
 
         public void UnsubscribeServices()
         {

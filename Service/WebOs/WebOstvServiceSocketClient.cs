@@ -416,6 +416,7 @@ namespace ConnectSdk.Windows.Service.WebOs
             // app Id
 
             //var packageName = Package.Current.Id.Name;
+            var packageName = "packageName";
 
             //// SDK Version
             String sdkVersion = DiscoveryManager.ConnectSdkVersion;

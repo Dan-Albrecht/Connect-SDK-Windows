@@ -19,21 +19,25 @@
  * limitations under the License.
  */
 #endregion
-using System;using Newtonsoft.Json;using Newtonsoft.Json.Linq;
+using System;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using ConnectSdk.Windows.Service.Command;
+using System.Net;
 
 namespace ConnectSdk.Windows.Service.Upnp
 {
-    public class DlnaHttpServer : IDisposable
+    // BUGBUG: This class isn't finished or vaidated
+    public class DlnaHttpServer
     {
         public int Port = 49291;
         private const uint BufferSize = 8192;
 
-        private StreamSocketListener listener;
+        private HttpListener listener;
         private List<UrlServiceSubscription> subscriptions;
 
         public DlnaHttpServer()
@@ -49,15 +53,10 @@ namespace ConnectSdk.Windows.Service.Upnp
             set { subscriptions = value; }
         }
 
-        public void Dispose()
+        private async Task ProcessRequestAsync(object socket)
         {
-            this.listener.Dispose();
-        }
-
-        private async void ProcessRequestAsync(StreamSocket socket)
-        {
-            
-
+            await Task.Yield();
+            /*
             var body = "";
 
             var request = new StringBuilder();
@@ -88,7 +87,7 @@ namespace ConnectSdk.Windows.Service.Upnp
                     dr.WriteString(message.ToString());
                     dr.StoreAsync();
                 }
-                catch 
+                catch
                 {
 
                 }
@@ -103,13 +102,13 @@ namespace ConnectSdk.Windows.Service.Upnp
             }
 
             if (body == null) return;
-            
-            //todo: add processing here
+
+            //todo: add processing here*/
         }
 
-        private async Task WriteResponseAsync(string path, IOutputStream os)
+        private async Task WriteResponseAsync(string path, object os)
         {
-            using (Stream resp = os.AsStreamForWrite())
+            using (Stream resp = (Stream)os)
             {
                 bool exists = true;
                 try
@@ -151,9 +150,8 @@ namespace ConnectSdk.Windows.Service.Upnp
             {
                 return;
             }
-            this.listener = new StreamSocketListener();
-            this.listener.ConnectionReceived += (s, e) => ProcessRequestAsync(e.Socket);
-            this.listener.BindServiceNameAsync(Port.ToString());
+            this.listener = new HttpListener();
+            this.listener.Prefixes.Add($"http://*:{this.Port}/");
 
             IsRunning = true;
         }

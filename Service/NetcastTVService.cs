@@ -1915,8 +1915,8 @@ namespace ConnectSdk.Windows.Service
             else Util.PostError(listener, ServiceCommandError.NotSupported());
             return null;
 
-            Util.PostError(listener, ServiceCommandError.NotSupported());
-            return null;
+            /*Util.PostError(listener, ServiceCommandError.NotSupported());
+            return null;*/
         }
 
         public void Next(ResponseListener listener)
