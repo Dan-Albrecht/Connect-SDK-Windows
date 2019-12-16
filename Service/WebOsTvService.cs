@@ -1699,7 +1699,7 @@ namespace ConnectSdk.Windows.Service
             }
         }
 
-        public void Move(Point distance)
+        public void Move(DoublePoint distance)
         {
             Move(distance.X, distance.Y);
         }
@@ -1716,7 +1716,7 @@ namespace ConnectSdk.Windows.Service
             }
         }
 
-        public void Scroll(Point distance)
+        public void Scroll(DoublePoint distance)
         {
             if (mouseSocket != null)
             {

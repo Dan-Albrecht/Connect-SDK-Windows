@@ -62,9 +62,14 @@ namespace ConnectSdk
             result = null;
         }
 
-        public static string GetNamedString(this JToken token, string name)
+        public static string GetNamedString(this JToken token, string name, string dunno = "")
         {
             return token[name].ToString();
+        }
+
+        public static bool GetNamedBoolean(this JObject jObject, string name, bool dunno)
+        {
+            return (bool)jObject[name];
         }
     }
 }

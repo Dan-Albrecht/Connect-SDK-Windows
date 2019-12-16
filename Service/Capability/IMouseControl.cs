@@ -33,8 +33,8 @@ namespace ConnectSdk.Windows.Service.Capability
         void DisconnectMouse();
         void Click();
         void Move(double dx, double dy);
-        void Move(Point distance);
+        void Move(DoublePoint distance);
         void Scroll(double dx, double dy);
-        void Scroll(Point distance);
+        void Scroll(DoublePoint distance);
     }
 }

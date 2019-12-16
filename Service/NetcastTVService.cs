@@ -86,7 +86,7 @@ namespace ConnectSdk.Windows.Service
         private readonly List<IServiceSubscription> subscriptions;
         private StringBuilder keyboardstring;
         private ConnectionState connectionState = ConnectionState.Initial;
-        private Point mMouseDistance;
+        private DoublePoint mMouseDistance;
         private bool mMouseIsMoving;
 
         public ConnectionState ServiceConnectionState
@@ -1500,7 +1500,7 @@ namespace ConnectSdk.Windows.Service
                 loadEventArg =>
                 {
                     Logger.Current.AddMessage("Netcast TV's mouse has been connected");
-                    mMouseDistance = new Point(0, 0);
+                    mMouseDistance = new DoublePoint(0, 0);
                     mMouseIsMoving = false;
                     isMouseConnected = true;
                 },
@@ -1595,7 +1595,7 @@ namespace ConnectSdk.Windows.Service
             request.Send();
         }
 
-        public void Move(Point diff)
+        public void Move(DoublePoint diff)
         {
             Move(diff.X, diff.Y);
         }
@@ -1616,7 +1616,7 @@ namespace ConnectSdk.Windows.Service
             request.Send();
         }
 
-        public void Scroll(Point diff)
+        public void Scroll(DoublePoint diff)
         {
             Scroll(diff.X, diff.Y);
         }

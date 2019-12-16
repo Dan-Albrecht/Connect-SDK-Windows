@@ -409,25 +409,28 @@ namespace ConnectSdk.Windows.Service.WebOs
 
         private void HelloTv()
         {
+            // BUGBUG: Clean this up
             //Context context = DiscoveryManager.getInstance().getContext();
             //PackageManager packageManager = context.getPackageManager();
 
             // app Id
 
-            var packageName = Package.Current.Id.Name;
+            //var packageName = Package.Current.Id.Name;
 
             //// SDK Version
             String sdkVersion = DiscoveryManager.ConnectSdkVersion;
 
-            var deviceInfo = new EasClientDeviceInformation();
+            //var deviceInfo = new EasClientDeviceInformation();
 
             //// Device Model
-            var deviceModel = deviceInfo.FriendlyName;
+            //var deviceModel = deviceInfo.FriendlyName;
+            var deviceModel = "deviceModel";
 
 
 
             //// OS Version
-            var osVersion = deviceInfo.OperatingSystem;
+            //var osVersion = deviceInfo.OperatingSystem;
+            var osVersion = "osVersion";
 
 
 
