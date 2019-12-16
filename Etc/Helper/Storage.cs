@@ -18,15 +18,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- #endregion
-using System;using Newtonsoft.Json;using Newtonsoft.Json.Linq;
+#endregion
+using System;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using ConnectSdk.Windows.Core;
+using System.Collections.Concurrent;
 
 namespace ConnectSdk.Windows.Etc.Helper
 {
     public class Storage
     {
-        private readonly global::Windows.Storage.ApplicationData settings;
+        // BUGBUG: Need to persit this as some point
+        private readonly ConcurrentDictionary<string, object> settings = new ConcurrentDictionary<string, object>();
+
         public const string StoredDevicesKeyName = "StoredDevices";
         public const string StoredKeysKeyName = "StoredKeys";
         public const string StoredVibrationKeyName = "VibrationSetting";
@@ -36,9 +41,6 @@ namespace ConnectSdk.Windows.Etc.Helper
         /// </summary>
         public Storage()
         {
-            // Get the settings for this application.
-            //settings = IsolatedStorageSettings.ApplicationSettings;
-            settings = global::Windows.Storage.ApplicationData.Current;
         }
 
         /// <summary>
@@ -50,33 +52,18 @@ namespace ConnectSdk.Windows.Etc.Helper
         /// <returns></returns>
         public bool AddOrUpdateValue(string key, Object value)
         {
-            // If the key exists
-            if (settings.LocalSettings.Values.ContainsKey(key))
+            if (this.settings.TryGetValue(key, out object existingValue) && existingValue == value)
             {
-                // If the value has changed
-                if (settings.LocalSettings.Values[key] == value) return false;
-                // Store the new value
-                try
-                {
-                    if (value is string)
-                    {
-                        var comppressed = StringCompressor.CompressString(value as string);
-                        settings.LocalSettings.Values[key] = comppressed;
-                    }
-                    else settings.LocalSettings.Values[key] = value;
-                    //settings.LocalSettings.Values[key] = value;
-                }
-                // ReSharper disable once EmptyGeneralCatchClause
-                catch
-                {
-                        
-                }
+                return false;
             }
-                // Otherwise create the key.
-            else
+
+            if (value is string valueString)
             {
-                settings.LocalSettings.Values.Add(key, value);
+                value = StringCompressor.CompressString(valueString);
             }
+
+            this.settings[key] = value;
+
             return true;
         }
 
@@ -90,26 +77,23 @@ namespace ConnectSdk.Windows.Etc.Helper
         /// <returns></returns>
         public T GetValueOrDefault<T>(string key, T defaultValue)
         {
-            T value;
-
-            // If the key exists, retrieve the value.
-            if (settings.LocalSettings.Values.ContainsKey(key))
+            if (this.settings.TryGetValue(key, out object value))
             {
-                //value = (T)settings.LocalSettings.Values[key];
-                if (typeof (T).Name == typeof (string).Name)
+                if (value.GetType() == typeof(string))
                 {
-                    var compressed = (string) settings.LocalSettings.Values[key];
-                    var uncompressed = StringCompressor.DecompressString(compressed);
-                    value = (T)Convert.ChangeType(uncompressed, typeof(T));
+                    string stringValue = (string)value;
+                    stringValue = StringCompressor.DecompressString(stringValue);
+                    return (T)Convert.ChangeType(stringValue, typeof(T));
                 }
-                else value = (T)settings.LocalSettings.Values[key];
+                else
+                {
+                    return (T)value;
+                }
             }
-            // Otherwise, use the default value.
             else
             {
-                value = defaultValue;
+                return defaultValue;
             }
-            return value;
         }
 
         /// <summary>
@@ -132,7 +116,7 @@ namespace ConnectSdk.Windows.Etc.Helper
         {
             get
             {
-                return GetValueOrDefault(StoredKeysKeyName, ""); 
+                return GetValueOrDefault(StoredKeysKeyName, "");
             }
         }
     }
