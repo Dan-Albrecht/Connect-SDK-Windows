@@ -19,12 +19,15 @@
  * limitations under the License.
  */
 #endregion
-using System;using Newtonsoft.Json;using Newtonsoft.Json.Linq;
+using System;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ConnectSdk.Windows.Core.Upnp.Ssdp;
 using ConnectSdk.Windows.Etc.Helper;
 using ConnectSdk.Windows.Wrappers;
+using System.Net;
 
 namespace ConnectSdk.Windows.Discovery.Provider.ssdp
 {
@@ -43,7 +46,7 @@ namespace ConnectSdk.Windows.Discovery.Provider.ssdp
         /// <param name="e"></param>
         public delegate void EventHandler(object sender, EventArgs e);
 
-        private DatagramSocketWrapper socket;
+        private static DatagramSocketWrapper socket = new DatagramSocketWrapper(new IPEndPoint(IPAddress.Any, 9696));
 
 
         public bool IsConnected { get; private set; }
@@ -53,40 +56,25 @@ namespace ConnectSdk.Windows.Discovery.Provider.ssdp
         /// </summary>
         /// <param name="data">The SSDP packet</param>
         /// <returns>unused</returns>
-        public Task<int> Send(string data)
+        public async Task<int> Send(string data)
         {
-            /*
-            socket = new DatagramSocketWrapper();
-            var profile = NetworkInformation.GetInternetConnectionProfile();
-
+            //socket = new DatagramSocketWrapper(new IPEndPoint(IPAddress.Any, SSDP.SourcePort));
 
             socket.MessageReceived += (sender, args) =>
             {
                 HandleDatagramMessage(args);
             };
 
-            try
-            {
-                socket.BindServiceNameAsync("", profile.NetworkAdapter);
-            }
-            catch (Exception e)
-            {
-                Logger.Current.AddMessage("There was an error binding the multicast socket: " + e.Message);
-            }
-
-            var remoteHost = new HostName(SSDP.Address);
+            var target = new IPEndPoint(IPAddress.Parse(SSDP.Address), SSDP.Port);
             var reqBuff = Encoding.UTF8.GetBytes(data);
-
-            var stream = await socket.GetOutputStreamAsync(remoteHost, SSDP.Port.ToString());
-            await stream.WriteAsync(reqBuff.AsBuffer());
+            await socket.Send(target, reqBuff);
 
             if (IsConnected) return 0;
 
-            socket.JoinMulticastGroup(remoteHost);
+            //socket.JoinMulticastGroup(remoteHost);
             IsConnected = !IsConnected;
 
-            return 0;*/
-            return Task.FromResult(0);
+            return 0;
         }
 
         private void HandleDatagramMessage(string message)

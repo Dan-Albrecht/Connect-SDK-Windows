@@ -25,26 +25,22 @@ using Newtonsoft.Json.Linq;
 using System.IO;
 using ConnectSdk.Windows.Fakes;
 using System.Threading.Tasks;
+using System.Net.Sockets;
+using System.Net;
+using System.Text;
 
 namespace ConnectSdk.Windows.Wrappers
 {
+    // BUGBUG: Finish cleaning this up
     public class DatagramSocketWrapper
     {
-        // BUGBUG: Move this the UdpClient
-        //private DatagramSocket socket;
+        private readonly UdpClient client;
+        //IPEndPoint groupEP = new IPEndPoint(IPAddress.Any, listenPort);
+
         public event EventHandler<string> MessageReceived;
 
-        public Task BindServiceNameAsync(string localServiceName, object adapter)
+        public DatagramSocketWrapper(IPEndPoint adapter)
         {
-            //return socket.BindServiceNameAsync(localServiceName, adapter);
-            return Task.CompletedTask;
-        }
-
-        public DatagramSocketWrapper()
-        {
-            /*socket = new DatagramSocket();
-            socket.MessageReceived += SocketOnMessageReceived;*/
-
             if (MessageFakeFactory.Instance != null)
             {
                 MessageFakeFactory.Instance.NewDatagraMessage += (sender, s) =>
@@ -53,34 +49,60 @@ namespace ConnectSdk.Windows.Wrappers
                         MessageReceived(this, s);
                 };
             }
-        }
-
-        /*private void SocketOnMessageReceived(DatagramSocket sender, DatagramSocketMessageReceivedEventArgs args)
-        {
-            if (MessageReceived != null)
+            else
             {
-                var reader = new StreamReader(args.GetDataStream().AsStreamForRead());
-                {
-                    var response = reader.ReadToEndAsync().Result;
-                    MessageReceived(this, response);
-                }
+                this.client = new UdpClient(adapter);
+                Task.Run(this.Receive);
             }
-        }*/
-
-        public Task<Stream> GetOutputStreamAsync(string remoteHostName, string remoteServiceName)
-        {
-            //return socket.GetOutputStreamAsync(remoteHostName, remoteServiceName);
-            return Task.FromResult<Stream>(null);
         }
 
-        public void JoinMulticastGroup(string host)
+        public void JoinMulticastGroup(IPAddress host)
         {
             if (MessageFakeFactory.Instance != null)
             {
                 MessageFakeFactory.Instance.StartJoinMulticastGroup();
             }
-            /*else
-                socket.JoinMulticastGroup(host);*/
+            else
+            {
+                this.client.JoinMulticastGroup(host);
+            }
+        }
+
+        private async Task Receive()
+        {
+            // BUGBUG: This seems wrong, what is the intent of this class
+            while (true)
+            {
+                UdpReceiveResult result = await this.client.ReceiveAsync();
+
+                var currentReceive = this.MessageReceived;
+
+                if (currentReceive != null)
+                {
+                    string data = Encoding.UTF8.GetString(result.Buffer);
+                    Console.WriteLine($"From {result.RemoteEndPoint} got: {data}");
+                    currentReceive(this, data);
+                }
+            }
+        }
+
+        private static bool once = false;
+
+        internal Task<int> Send(IPEndPoint target, byte[] reqBuff)
+        {
+            if (!once)
+            {
+                lock (this)
+                {
+                    if (!once)
+                    {
+                        once = true;
+                        this.JoinMulticastGroup(target.Address);
+                    }
+                }
+            }
+            
+            return this.client.SendAsync(reqBuff, reqBuff.Length, target);
         }
     }
 }

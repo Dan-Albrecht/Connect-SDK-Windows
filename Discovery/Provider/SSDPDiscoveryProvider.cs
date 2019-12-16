@@ -206,7 +206,10 @@ namespace ConnectSdk.Windows.Discovery.Provider
             if (serviceFilter == null || SSDP.SlMsearch.Equals(pd.PacketType) || !IsSearchingForFilter(serviceFilter))
                 return;
 
-            var usnKey = pd.Data[SSDP.Usn];
+            if (!pd.Data.TryGetValue(SSDP.Urn, out string usnKey))
+            {
+                return;
+            }
 
             if (string.IsNullOrEmpty(usnKey))
                 return;

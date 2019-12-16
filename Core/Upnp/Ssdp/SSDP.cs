@@ -21,6 +21,7 @@
  #endregion
 namespace ConnectSdk.Windows.Core.Upnp.Ssdp
 {
+    // Simple Service Discovery Protocol
     class SSDP
     {
         public static string Newline = "\r\n";
@@ -43,6 +44,7 @@ namespace ConnectSdk.Windows.Core.Upnp.Ssdp
         public static string SlOk = "HTTP/1.1 200 OK";
 
         /* Definitions of search targets */
+        public static string StAll = St + ": ssdp:all";
         public static string StSsap = St + ": urn:lge-com:service:webos-second-screen:1";
         public static string StDial = St + ": urn:dial-multiscreen-org:service:dial:1";
         public static string DeviceMediaServer1 = "urn:schemas-upnp-org:device:MediaServer:1";
