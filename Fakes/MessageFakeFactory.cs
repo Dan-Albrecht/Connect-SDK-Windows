@@ -29,6 +29,7 @@ using System.Threading.Tasks;
 
 namespace ConnectSdk.Windows.Fakes
 {
+    // BUGBUG: Hacked off
     public class MessageFakeFactory
     {
         public static MessageFakeFactory Instance;
@@ -38,9 +39,9 @@ namespace ConnectSdk.Windows.Fakes
         /// <summary>
         /// Instructs the factory to spam with messages as they would have been received by a normal datagram multicast socket
         /// </summary>
-        public async void StartJoinMulticastGroup()
+        public void StartJoinMulticastGroup()
         {
-            var messages = new List<string>();
+            /*var messages = new List<string>();
             StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Fakes/SSDP.txt"));
             string ssdpMessages;
 
@@ -66,12 +67,12 @@ namespace ConnectSdk.Windows.Fakes
             {
                 if (NewDatagraMessage != null)
                     NewDatagraMessage(this, messages[i]);
-            }
+            }*/
         }
 
-        public async Task<HttpResponseMessage> GetResponseMessage(string url)
+        public Task<HttpResponseMessage> GetResponseMessage(string url)
         {
-            //StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Fakes/LGWebOSLocation.xml"));
+            /*//StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Fakes/LGWebOSLocation.xml"));
             StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Fakes/NetcastLocation.xml"));
             //StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Fakes/XboxLocation.xml"));
             string locationXMLMessage;
@@ -93,7 +94,9 @@ namespace ConnectSdk.Windows.Fakes
                 
             }
             message.Content = new StringContent(locationXMLMessage);
-            return message;
+            return message;*/
+
+            return Task.FromResult<HttpResponseMessage>(null);
         }
 
         public static void Start()

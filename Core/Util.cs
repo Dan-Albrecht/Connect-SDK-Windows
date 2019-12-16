@@ -24,6 +24,7 @@ using System.IO;
 using System.Linq;
 using ConnectSdk.Windows.Service.Capability.Listeners;
 using ConnectSdk.Windows.Service.Command;
+using System.Net;
 
 namespace ConnectSdk.Windows.Core
 {
@@ -68,23 +69,19 @@ namespace ConnectSdk.Windows.Core
         /// </summary>
         public static bool IsWirelessAvailable()
         {
-            var hnames = NetworkInformation.GetHostNames();
-            // check also IanaInterfaceType = 6 because we might be in an emulator on a PC :)
-            return hnames.Where(hostName => hostName.IPInformation != null).Any(hostName => (hostName.IPInformation.NetworkAdapter.IanaInterfaceType == 71 || hostName.IPInformation.NetworkAdapter.IanaInterfaceType == 6));
-        }
+            try
+            {
+                var hnames = Dns.GetHostName();
+                // BUGBUG: Is this sufficent?
+                return true;
 
-        /// <summary>
-        /// Gets the wireless ip address
-        /// </summary>
-        /// <returns></returns>
-        public static string GetLocalWirelessIp()
-        {
-            //TODO: check here for wireless to be active and throw exception when not
-            var hnames = NetworkInformation.GetHostNames();
-            return (from hostName in hnames 
-                    where hostName.IPInformation != null 
-                    where hostName.IPInformation.NetworkAdapter.IanaInterfaceType == 71 
-                    select hostName.CanonicalName).FirstOrDefault();
+                // check also IanaInterfaceType = 6 because we might be in an emulator on a PC :)
+                //return hnames.Where(hostName => hostName.IPInformation != null).Any(hostName => (hostName.IPInformation.NetworkAdapter.IanaInterfaceType == 71 || hostName.IPInformation.NetworkAdapter.IanaInterfaceType == 6));
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         /// <summary>

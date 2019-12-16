@@ -2,9 +2,11 @@ using System;using Newtonsoft.Json;using Newtonsoft.Json.Linq;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net;
 
 namespace ConnectSdk.Windows.Core.Upnp.Ssdp
 {
+    // BUGBUG: Hacked off
     public class SSDPSocket
     {
         bool socketJoined;
@@ -17,10 +19,10 @@ namespace ConnectSdk.Windows.Core.Upnp.Ssdp
         /// </summary>
         /// <param name="data">The SSDP packet</param>
         /// <returns>unused</returns>
-        public async Task<int> Send(string data)
+        public Task<int> Send(string data)
         {
-
-            var socket = new global::Windows.Networking.Sockets.DatagramSocket();
+            return Task.FromResult(0);
+            /*var socket = new global::Windows.Networking.Sockets.DatagramSocket();
             {
                 var profile = NetworkInformation.GetInternetConnectionProfile();
 
@@ -36,7 +38,8 @@ namespace ConnectSdk.Windows.Core.Upnp.Ssdp
 
                 socket.BindServiceNameAsync("", profile.NetworkAdapter);
 
-                var remoteHost = new global::Windows.Networking.HostName(SSDP.Address);
+
+                var remoteHost = Dns.GetHostEntry(SSDP.Address);
                 var reqBuff = Encoding.UTF8.GetBytes(data);
 
                 var stream = await socket.GetOutputStreamAsync(remoteHost, SSDP.Port.ToString());
@@ -48,7 +51,7 @@ namespace ConnectSdk.Windows.Core.Upnp.Ssdp
                 socketJoined = !socketJoined;
 
                 return 0;
-            }
+            }*/
         }
 
         protected virtual void OnMessageReceived(MessageReceivedArgs e)

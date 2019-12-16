@@ -104,7 +104,7 @@ namespace ConnectSdk.Windows.Device
             {
                 storedDevices = new JObject();
             }
-            var storedDevice = storedDevices.Keys.Contains(device.Id) ? storedDevices.GetNamedObject(device.Id) : null;
+            var storedDevice = storedDevices.ContainsKey(device.Id) ? storedDevices.GetNamedObject(device.Id) : null;
 
             if (storedDevice != null)
             {
@@ -225,17 +225,18 @@ namespace ConnectSdk.Windows.Device
 
         private JObject GetStoredDevice(string uuidParam)
         {
-            var foundDevice = storedDevices.GetNamedObject(uuidParam, null);
+            /*var foundDevice = storedDevices.GetNamedObject(uuidParam, null);
 
             return foundDevice ??
-                   (from
-                        pair
-                        in storedDevices
+                   (from pair in storedDevices
                     select storedDevices.GetNamedObject(pair.Key) into device
                     let services = device.GetNamedObject(ConnectableDevice.KeyServices)
                     where services != null && services.ContainsKey(uuidParam)
                     select device
-                    ).FirstOrDefault();
+                    ).FirstOrDefault();*/
+
+            // BUGBUG: Implment
+            return null;
         }
 
         //public ServiceConfig GetServiceConfig(string uuidParam)
@@ -267,7 +268,7 @@ namespace ConnectSdk.Windows.Device
 
             var value = Storage.Current.GetValueOrDefault(Storage.StoredDevicesKeyName, string.Empty);
             JObject data;
-            if (!JObject.TryParse(value, out data)) return;
+            if (!JsonHacks.TryParse(value, out data)) return;
 
             storedDevices = data.GetNamedObject(KeyDevices, null) ?? new JObject();
 

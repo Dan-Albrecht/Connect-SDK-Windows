@@ -17,12 +17,12 @@ namespace ConnectSdk
             return (bool)jObject[name];
         }
 
-        public static int GetNamedNumber(this JObject jObject, string name)
+        public static int GetNamedNumber(this JObject jObject, string name, int dunno = 0)
         {
             return (int)jObject[name];
         }
 
-        public static JObject GetNamedObject(this JObject jObject, string name)
+        public static JObject GetNamedObject(this JObject jObject, string name, string dunno = "")
         {
             return (JObject)jObject[name];
         }
@@ -42,6 +42,11 @@ namespace ConnectSdk
             jObject[name] = value;
         }
 
+        public static void SetNamedValue(this JObject jObject, string name, double value)
+        {
+            jObject[name] = value;
+        }
+
         public static void SetNamedValue(this JObject jObject, string name, int value)
         {
             jObject[name] = value;
@@ -57,9 +62,10 @@ namespace ConnectSdk
             return jObject.ToString();
         }
 
-        public static void TryParse(string value, out JObject result)
+        public static bool TryParse(string value, out JObject result)
         {
             result = null;
+            return false;
         }
 
         public static string GetNamedString(this JToken token, string name, string dunno = "")
