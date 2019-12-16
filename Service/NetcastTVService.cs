@@ -736,7 +736,7 @@ namespace ConnectSdk.Windows.Service
                     var strObj = load.Content.ReadAsStringAsync().Result;
 
                     JObject JObject;
-                    JObject.TryParse(strObj, out JObject);
+                    JsonHacks.TryParse(strObj, out JObject);
 
                     //var tarray = JObject.GetNamedArray("Channel List", new JArray());
                     var applicationNumber = ParseAppNumberXmlToJson(strObj);

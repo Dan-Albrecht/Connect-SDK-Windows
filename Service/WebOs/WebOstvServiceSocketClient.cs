@@ -19,7 +19,9 @@
  * limitations under the License.
  */
 #endregion
-using System;using Newtonsoft.Json;using Newtonsoft.Json.Linq;
+using System;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -66,7 +68,7 @@ namespace ConnectSdk.Windows.Service.WebOs
             SetDefaultManifest();
         }
 
-        
+
 
         public IWebOstvServiceSocketClientListener Listener { get; set; }
 
@@ -85,7 +87,7 @@ namespace ConnectSdk.Windows.Service.WebOs
         {
             messageWebSocket = new MessageWebSocket();
             messageWebSocket.Control.MessageType = SocketMessageType.Utf8;
-            
+
             messageWebSocket.MessageReceived += (sender, args) =>
             {
                 string read;
@@ -143,7 +145,7 @@ namespace ConnectSdk.Windows.Service.WebOs
         public void DisconnectWithError(ServiceCommandError error)
         {
             State = State.Initial;
-            
+
             if (Listener != null)
                 Listener.OnCloseWithError(error);
         }
@@ -220,182 +222,182 @@ namespace ConnectSdk.Windows.Service.WebOs
             try
             {
 
-            var shouldProcess = true;
+                var shouldProcess = true;
 
-            if (Listener != null)
-                shouldProcess = Listener.OnReceiveMessage(message);
+                if (Listener != null)
+                    shouldProcess = Listener.OnReceiveMessage(message);
 
-            if (!shouldProcess)
-                return;
+                if (!shouldProcess)
+                    return;
 
-            var type = message.GetNamedString("type");
-            Object payload = 1;
-            try
-            {
-                payload = message.GetNamedObject("payload");
-            }
-            // ReSharper disable once EmptyGeneralCatchClause
-            catch
-            {
-                // we will fail when the type is error because payload is not retrievable
-            }
-            ServiceCommand request = null;
-            int id = 0;
-            if (message.ContainsKey("id"))
-            {
-                if (message.ContainsKey("id"))
-                {
-                    if (message.GetNamedValue("id").ValueType != JsonValueType.String)
-                    {
-                        id = (int)message.GetNamedNumber("id");
-                    }
-                    else
-                    {
-                        var intstr = message.GetNamedString("id");
-                        int.TryParse(intstr, out id);
-                    }
-                }
-
+                var type = message.GetNamedString("type");
+                Object payload = 1;
                 try
                 {
-                    if (Requests.ContainsKey(id))
-                        request = Requests[id];
+                    payload = message.GetNamedObject("payload");
                 }
                 // ReSharper disable once EmptyGeneralCatchClause
                 catch
                 {
-                    // since request is assigned to null, don't need to do anything here
+                    // we will fail when the type is error because payload is not retrievable
                 }
-            }
-
-            if (type.Length == 0)
-                return;
-
-            if ("response".Equals(type))
-            {
-                if (request != null)
+                ServiceCommand request = null;
+                int id = 0;
+                if (message.ContainsKey("id"))
                 {
-                    Logger.Current.AddMessage("Found requests. Need to handle response.");
-                    if (payload != null)
+                    if (message.ContainsKey("id"))
                     {
-                        try
+                        if (message.GetNamedValue("id").Type != JTokenType.String)
                         {
-                            Util.PostSuccess(request.ResponseListenerValue, payload);
+                            id = (int)message.GetNamedNumber("id");
                         }
-                        catch
+                        else
                         {
-                        }
-
-                    }
-                    else
-                    {
-                        try
-                        {
-                            Util.PostError(request.ResponseListenerValue,
-                                new ServiceCommandError(-1, "JSON parse error"));
-                        }
-                        // ReSharper disable once EmptyGeneralCatchClause
-                        catch
-                        {
-
+                            var intstr = message.GetNamedString("id");
+                            int.TryParse(intstr, out id);
                         }
                     }
 
-                    if (!(request is UrlServiceSubscription))
+                    try
                     {
-                        if (!message.ContainsKey("pairingType"))
-                        {
-                            Requests.Remove(id);
-                        }
+                        if (Requests.ContainsKey(id))
+                            request = Requests[id];
+                    }
+                    // ReSharper disable once EmptyGeneralCatchClause
+                    catch
+                    {
+                        // since request is assigned to null, don't need to do anything here
                     }
                 }
-            }
-            else if ("registered".Equals(type))
-            {
-                if (!(service.ServiceConfig is WebOsTvServiceConfig))
-                {
-                    service.ServiceConfig = new WebOsTvServiceConfig(service.ServiceConfig.ServiceUuid);
-                }
 
-                if (payload != null)
-                {
-                    var clientKey = ((JObject)payload).GetNamedString("client-key");
-                    ((WebOsTvServiceConfig)service.ServiceConfig).ClientKey = clientKey;
-
-                    HandleRegistered();
-
-                    if (Requests.ContainsKey(id))
-                        Requests.Remove(id);
-                }
-            }
-            else if ("error".Equals(type))
-            {
-                var error = message.GetNamedString("error");
-                if (error.Length == 0)
+                if (type.Length == 0)
                     return;
 
-                int errorCode;
-                string errorDesc;
-                try
+                if ("response".Equals(type))
                 {
-                    var parts = error.Split(' ');
-                    errorCode = int.Parse(parts[0]);
-                    errorDesc = error.Replace(parts[0], "");
-                }
-                // ReSharper disable once RedundantCatchClause
-                catch
-                {
-                    throw;
-                }
-                if (payload != null)
-                    Logger.Current.AddMessage("Error payload: " + payload);
-
-                if (!message.ContainsKey("id")) return;
-                Logger.Current.AddMessage("Error desc: " + errorDesc);
-
-                if (request == null) return;
-                Util.PostError(request.ResponseListenerValue,
-                    new ServiceCommandError(errorCode, payload));
-
-                if (errorCode != 409)
-                    if (!(request is UrlServiceSubscription))
-                        Requests.Remove(id);
-
-                if (errorCode == 403)
-                {
-                    // 403 User Denied Access 
-                    Disconnect();
-                }
-            }
-            else if ("hello".Equals(type))
-            {
-                var jsonObj = (JObject)payload;
-
-                if (service.ServiceConfig.ServiceUuid != null)
-                {
-                    if (!service.ServiceConfig.ServiceUuid.Equals(jsonObj.GetNamedString("deviceUUID")))
+                    if (request != null)
                     {
-                        ((WebOsTvServiceConfig)service.ServiceConfig).ClientKey = null;
-                        String cert = null;
-                        // ReSharper disable once ExpressionIsAlwaysNull
-                        ((WebOsTvServiceConfig)service.ServiceConfig).SetServerCertificate(cert);
-                        service.ServiceConfig.ServiceUuid = null;
-                        service.ServiceDescription.IpAddress = null;
-                        service.ServiceDescription.Uuid = null;
+                        Logger.Current.AddMessage("Found requests. Need to handle response.");
+                        if (payload != null)
+                        {
+                            try
+                            {
+                                Util.PostSuccess(request.ResponseListenerValue, payload);
+                            }
+                            catch
+                            {
+                            }
 
+                        }
+                        else
+                        {
+                            try
+                            {
+                                Util.PostError(request.ResponseListenerValue,
+                                    new ServiceCommandError(-1, "JSON parse error"));
+                            }
+                            // ReSharper disable once EmptyGeneralCatchClause
+                            catch
+                            {
+
+                            }
+                        }
+
+                        if (!(request is UrlServiceSubscription))
+                        {
+                            if (!message.ContainsKey("pairingType"))
+                            {
+                                Requests.Remove(id);
+                            }
+                        }
+                    }
+                }
+                else if ("registered".Equals(type))
+                {
+                    if (!(service.ServiceConfig is WebOsTvServiceConfig))
+                    {
+                        service.ServiceConfig = new WebOsTvServiceConfig(service.ServiceConfig.ServiceUuid);
+                    }
+
+                    if (payload != null)
+                    {
+                        var clientKey = ((JObject)payload).GetNamedString("client-key");
+                        ((WebOsTvServiceConfig)service.ServiceConfig).ClientKey = clientKey;
+
+                        HandleRegistered();
+
+                        if (Requests.ContainsKey(id))
+                            Requests.Remove(id);
+                    }
+                }
+                else if ("error".Equals(type))
+                {
+                    var error = message.GetNamedString("error");
+                    if (error.Length == 0)
+                        return;
+
+                    int errorCode;
+                    string errorDesc;
+                    try
+                    {
+                        var parts = error.Split(' ');
+                        errorCode = int.Parse(parts[0]);
+                        errorDesc = error.Replace(parts[0], "");
+                    }
+                    // ReSharper disable once RedundantCatchClause
+                    catch
+                    {
+                        throw;
+                    }
+                    if (payload != null)
+                        Logger.Current.AddMessage("Error payload: " + payload);
+
+                    if (!message.ContainsKey("id")) return;
+                    Logger.Current.AddMessage("Error desc: " + errorDesc);
+
+                    if (request == null) return;
+                    Util.PostError(request.ResponseListenerValue,
+                        new ServiceCommandError(errorCode, payload));
+
+                    if (errorCode != 409)
+                        if (!(request is UrlServiceSubscription))
+                            Requests.Remove(id);
+
+                    if (errorCode == 403)
+                    {
+                        // 403 User Denied Access 
                         Disconnect();
                     }
                 }
-                else
+                else if ("hello".Equals(type))
                 {
-                    String uuid = jsonObj.GetNamedString("deviceUUID");
-                    service.ServiceConfig.ServiceUuid = uuid;
-                    service.ServiceDescription.Uuid = uuid;
-                }
+                    var jsonObj = (JObject)payload;
 
-                State = State.Registering;
-                SendRegister();
-            }
+                    if (service.ServiceConfig.ServiceUuid != null)
+                    {
+                        if (!service.ServiceConfig.ServiceUuid.Equals(jsonObj.GetNamedString("deviceUUID")))
+                        {
+                            ((WebOsTvServiceConfig)service.ServiceConfig).ClientKey = null;
+                            String cert = null;
+                            // ReSharper disable once ExpressionIsAlwaysNull
+                            ((WebOsTvServiceConfig)service.ServiceConfig).SetServerCertificate(cert);
+                            service.ServiceConfig.ServiceUuid = null;
+                            service.ServiceDescription.IpAddress = null;
+                            service.ServiceDescription.Uuid = null;
+
+                            Disconnect();
+                        }
+                    }
+                    else
+                    {
+                        String uuid = jsonObj.GetNamedString("deviceUUID");
+                        service.ServiceConfig.ServiceUuid = uuid;
+                        service.ServiceDescription.Uuid = uuid;
+                    }
+
+                    State = State.Registering;
+                    SendRegister();
+                }
             }
             catch (Exception)
             {
@@ -589,7 +591,7 @@ namespace ConnectSdk.Windows.Service.WebOs
                 }
                 else if (state == State.Connecting || state == State.Disconnecting)
                 {
-                    
+
                     commandQueue.Enqueue(command);
                 }
                 else
@@ -654,11 +656,14 @@ namespace ConnectSdk.Windows.Service.WebOs
 
             if (payloadType == "p2p")
             {
-                foreach (var key in payload.Select(pair => pair.Key))
+                foreach (var something in payload)
                 {
                     try
                     {
-                        if (payload != null) headers.Add(key, payload.GetNamedObject(key));
+                        if (something.Value != null)
+                        {
+                            headers.Add(something.Key, something.Value);
+                        }
                     }
                     // ReSharper disable once EmptyGeneralCatchClause
                     catch
@@ -666,6 +671,7 @@ namespace ConnectSdk.Windows.Service.WebOs
                         // ignore
                     }
                 }
+
                 SendMessage(headers, null);
             }
             else if (payloadType == "hello")
