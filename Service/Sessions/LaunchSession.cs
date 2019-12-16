@@ -81,7 +81,7 @@ namespace ConnectSdk.Windows.Service.Sessions
             var list = RawData as List<object>;
             if (list != null)
             {
-                var arr = new JsonArray();
+                var arr = new JArray();
                 foreach (var item in list)
                 {
                     arr.Add(JsonValue.CreateStringValue(item.ToString()));

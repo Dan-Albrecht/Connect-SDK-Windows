@@ -22,6 +22,7 @@
 using ConnectSdk.Windows.Service.Capability.Listeners;
 using ConnectSdk.Windows.Service.Command;
 using ConnectSdk.Windows.Service.Sessions;
+using Newtonsoft.Json.Linq;
 
 namespace ConnectSdk.Windows.Service.Capability
 {

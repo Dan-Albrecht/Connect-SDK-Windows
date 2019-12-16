@@ -20,6 +20,7 @@
  */
 #endregion
 using ConnectSdk.Windows.Service.Command;
+using Newtonsoft.Json.Linq;
 
 namespace ConnectSdk.Windows.Service.WebOs
 {

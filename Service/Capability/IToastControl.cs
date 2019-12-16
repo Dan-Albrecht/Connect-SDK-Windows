@@ -21,6 +21,7 @@
 #endregion
 using ConnectSdk.Windows.Core;
 using ConnectSdk.Windows.Service.Capability.Listeners;
+using Newtonsoft.Json.Linq;
 
 namespace ConnectSdk.Windows.Service.Capability
 {

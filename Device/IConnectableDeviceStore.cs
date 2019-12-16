@@ -20,6 +20,7 @@
  */
 #endregion
 using ConnectSdk.Windows.Service.Config;
+using Newtonsoft.Json.Linq;
 
 namespace ConnectSdk.Windows.Device
 {

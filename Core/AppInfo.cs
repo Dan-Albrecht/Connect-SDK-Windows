@@ -22,6 +22,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using ConnectSdk.Windows.Annotations;
+using Newtonsoft.Json.Linq;
 
 namespace ConnectSdk.Windows.Core
 {

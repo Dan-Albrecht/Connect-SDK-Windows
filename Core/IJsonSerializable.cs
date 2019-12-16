@@ -20,6 +20,8 @@
  */
 #endregion
 
+using Newtonsoft.Json.Linq;
+
 namespace ConnectSdk.Windows.Core
 {
     public interface IJsonSerializable

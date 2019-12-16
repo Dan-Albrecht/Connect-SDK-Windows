@@ -30,7 +30,6 @@ using ConnectSdk.Windows.Etc.Helper;
 using ConnectSdk.Windows.Service.Capability.Listeners;
 using ConnectSdk.Windows.Service.Command;
 using ConnectSdk.Windows.Service.Config;
-using UnicodeEncoding = Windows.Storage.Streams.UnicodeEncoding;
 
 namespace ConnectSdk.Windows.Service.WebOs
 {
@@ -166,16 +165,16 @@ namespace ConnectSdk.Windows.Service.WebOs
             }
         }
 
-        public JsonArray ConvertStringListToJsonArray(IEnumerable<string> list)
+        public JArray ConvertStringListToJsonArray(IEnumerable<string> list)
         {
-            var jsonArray = new JsonArray();
+            var JArray = new JArray();
 
             foreach (var str in list)
             {
-                jsonArray.Add(JsonValue.CreateStringValue(str));
+                JArray.Add(JsonValue.CreateStringValue(str));
             }
 
-            return jsonArray;
+            return JArray;
         }
 
         public void OnMessage(String data)

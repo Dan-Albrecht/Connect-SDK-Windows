@@ -737,7 +737,7 @@ namespace ConnectSdk.Windows.Service
                     JObject JObject;
                     JObject.TryParse(strObj, out JObject);
 
-                    //var tarray = JObject.GetNamedArray("Channel List", new JsonArray());
+                    //var tarray = JObject.GetNamedArray("Channel List", new JArray());
                     var applicationNumber = ParseAppNumberXmlToJson(strObj);
 
                     Util.PostSuccess(listener, applicationNumber);
@@ -1055,7 +1055,7 @@ namespace ConnectSdk.Windows.Service
                     //NetcastChannelParser parser = new NetcastChannelParser();
                     //saxParser.parse(stream, parser);
 
-                    //JSONArray channelArray = parser.getJSONChannelArray();
+                    //JArray channelArray = parser.getJSONChannelArray();
 
                     //if ( channelArrayLength > 0 ) {
                     //    JObject rawData = (JObject) channelArray.get(0);

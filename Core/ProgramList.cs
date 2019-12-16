@@ -20,14 +20,16 @@
  */
 #endregion
 
+using Newtonsoft.Json.Linq;
+
 namespace ConnectSdk.Windows.Core
 {
     public class ProgramList : IJsonSerializable
     {
         public ChannelInfo Channel { get; private set; }
-        public JsonArray ProgramsList { get; private set; }
+        public JArray ProgramsList { get; private set; }
 
-        public ProgramList(ChannelInfo channel, JsonArray programList)
+        public ProgramList(ChannelInfo channel, JArray programList)
         {
             Channel = channel;
             ProgramsList = programList;

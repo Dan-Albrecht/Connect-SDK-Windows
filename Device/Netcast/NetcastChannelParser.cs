@@ -26,7 +26,7 @@ namespace ConnectSdk.Windows.Device.Netcast
 {
     public class NetcastChannelParser
     {
-        public JsonArray ChannelArray;
+        public JArray ChannelArray;
         public JObject Channel;
 
         public string Value;
@@ -48,7 +48,7 @@ namespace ConnectSdk.Windows.Device.Netcast
 
         public NetcastChannelParser()
         {
-            ChannelArray = new JsonArray();
+            ChannelArray = new JArray();
             Value = null;
         }
 
@@ -57,7 +57,7 @@ namespace ConnectSdk.Windows.Device.Netcast
             Value = new string(ch, start, length);
         }
 
-        public JsonArray GetJsonChannelArray()
+        public JArray GetJsonChannelArray()
         {
             return ChannelArray;
         }

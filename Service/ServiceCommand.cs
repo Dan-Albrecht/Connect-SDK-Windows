@@ -28,7 +28,7 @@ namespace ConnectSdk.Windows.Service
             HttpMethod = TypePost;
         }
 
-        public ServiceCommand(IServiceCommandProcessor service, string uri, IJsonValue payload, ResponseListener listener)
+        public ServiceCommand(IServiceCommandProcessor service, string uri, JValue payload, ResponseListener listener)
         {
             Service = service;
             Target = uri;
