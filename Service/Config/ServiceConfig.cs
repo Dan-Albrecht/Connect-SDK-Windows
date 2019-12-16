@@ -19,7 +19,7 @@
  * limitations under the License.
  */
 #endregion
-using System;
+using System;using Newtonsoft.Json;using Newtonsoft.Json.Linq;
 using ConnectSdk.Windows.Core;
 
 namespace ConnectSdk.Windows.Service.Config
@@ -80,13 +80,13 @@ namespace ConnectSdk.Windows.Service.Config
             listener = config.listener;
         }
 
-        public ServiceConfig(JsonObject json)
+        public ServiceConfig(JObject json)
         {
             ServiceUuid = json.GetNamedString(KeyUuid);
             LastDetected = json.GetNamedNumber(KeyLastDetect);
         }
 
-        public static ServiceConfig GetConfig(JsonObject json)
+        public static ServiceConfig GetConfig(JObject json)
         {
             ServiceConfig newServiceClass = null;
             var className = json.GetNamedString(KeyClass);
@@ -115,9 +115,9 @@ namespace ConnectSdk.Windows.Service.Config
             LastDetected = Util.GetTime();
         }
 
-        public virtual JsonObject ToJsonObject()
+        public virtual JObject ToJsonObject()
         {
-            var jsonObj = new JsonObject();
+            var jsonObj = new JObject();
 
             try
             {

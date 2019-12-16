@@ -32,8 +32,8 @@ namespace ConnectSdk.Windows.Service.Capability
 
         void LaunchWebApp(string webAppId, ResponseListener listener);
         void LaunchWebApp(string webAppId, bool relaunchIfRunning, ResponseListener listener);
-        void LaunchWebApp(string webAppId, JsonObject ps, ResponseListener listener);
-        void LaunchWebApp(string webAppId, JsonObject ps, bool relaunchIfRunning, ResponseListener listener);
+        void LaunchWebApp(string webAppId, JObject ps, ResponseListener listener);
+        void LaunchWebApp(string webAppId, JObject ps, bool relaunchIfRunning, ResponseListener listener);
 
         void JoinWebApp(LaunchSession webAppLaunchSession, ResponseListener listener);
         void JoinWebApp(string webAppId, ResponseListener listener);

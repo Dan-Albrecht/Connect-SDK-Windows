@@ -24,6 +24,6 @@ namespace ConnectSdk.Windows.Core
 {
     public interface IJsonSerializable
     {
-        JsonObject ToJsonObject();
+        JObject ToJsonObject();
     }
 }

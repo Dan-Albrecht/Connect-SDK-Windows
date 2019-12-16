@@ -19,7 +19,7 @@
  * limitations under the License.
  */
  #endregion
-using System;
+using System;using Newtonsoft.Json;using Newtonsoft.Json.Linq;
 
 #pragma warning disable 1591
 // ReSharper disable UnusedMember.Global

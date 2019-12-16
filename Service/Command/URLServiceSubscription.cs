@@ -28,14 +28,14 @@ namespace ConnectSdk.Windows.Service.Command
     {
         private readonly List<ResponseListener> listeners = new List<ResponseListener>();
 
-        public UrlServiceSubscription(DeviceService service, string uri, JsonObject payload,
+        public UrlServiceSubscription(DeviceService service, string uri, JObject payload,
             ResponseListener listener) :
                 base(service, uri, payload, listener)
         {
         }
 
 
-        public UrlServiceSubscription(DeviceService service, string uri, JsonObject payload, bool isWebOs,
+        public UrlServiceSubscription(DeviceService service, string uri, JObject payload, bool isWebOs,
             ResponseListener listener) :
                 base(service, uri, payload, listener)
         {

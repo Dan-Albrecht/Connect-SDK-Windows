@@ -19,7 +19,7 @@
  * limitations under the License.
  */
 #endregion
-using System;
+using System;using Newtonsoft.Json;using Newtonsoft.Json.Linq;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -288,7 +288,7 @@ namespace ConnectSdk.Windows.Service
         public void SetVolume(float volume, ResponseListener listener)
         {
             const string uri = "ssap://audio/setVolume";
-            var payload = new JsonObject();
+            var payload = new JObject();
             var intVolume = (int)Math.Round(volume * 100.0f);
 
             try
@@ -319,7 +319,7 @@ namespace ConnectSdk.Windows.Service
                 {
                     try
                     {
-                        var jsonObj = (JsonObject)((loadEventArg  as LoadEventArgs).Load.GetPayload());
+                        var jsonObj = (JObject)((loadEventArg  as LoadEventArgs).Load.GetPayload());
                         var iVolume = (int)jsonObj.GetNamedNumber("volume");
                         var fVolume = (float)(iVolume / 100.0);
 
@@ -344,7 +344,7 @@ namespace ConnectSdk.Windows.Service
         public void SetMute(bool isMute, ResponseListener listener)
         {
             const string uri = "ssap://audio/setMute";
-            var payload = new JsonObject();
+            var payload = new JObject();
             try
             {
                 payload.Add("mute", JsonValue.CreateBooleanValue(isMute));
@@ -372,7 +372,7 @@ namespace ConnectSdk.Windows.Service
                 {
                     try
                     {
-                        var jsonObj = LoadEventArgs.GetValue<JsonObject>(loadEventArg);
+                        var jsonObj = LoadEventArgs.GetValue<JObject>(loadEventArg);
                         var isMute = jsonObj.GetNamedBoolean("mute");
                         Util.PostSuccess(listener, isMute);
                     }
@@ -426,18 +426,18 @@ namespace ConnectSdk.Windows.Service
         public void LaunchAppWithInfo(AppInfo appInfo, object ps, ResponseListener listener)
         {
             const string uri = "ssap://system.launcher/launch";
-            var payload = new JsonObject();
+            var payload = new JObject();
 
             var appId = appInfo.Id;
             string contentId = null;
 
             if (ps != null)
             {
-                if (((JsonObject) ps).ContainsKey("contentId"))
+                if (((JObject) ps).ContainsKey("contentId"))
                 {
                     try
                     {
-                        contentId = ((JsonObject)ps).GetNamedString("contentId");
+                        contentId = ((JObject)ps).GetNamedString("contentId");
                     }
                     // ReSharper disable once EmptyGeneralCatchClause
                     catch
@@ -455,7 +455,7 @@ namespace ConnectSdk.Windows.Service
                     payload.Add("contentId", JsonValue.CreateStringValue(contentId));
 
                 if (ps != null)
-                    payload.Add("params", (JsonObject)ps);
+                    payload.Add("params", (JObject)ps);
             }
             // ReSharper disable once EmptyGeneralCatchClause
             catch
@@ -467,7 +467,7 @@ namespace ConnectSdk.Windows.Service
                 (
                 loadEventArg =>
                 {
-                    var obj = (JsonObject)(((LoadEventArgs)loadEventArg).Load.GetPayload());
+                    var obj = (JObject)(((LoadEventArgs)loadEventArg).Load.GetPayload());
                     var launchSession = new LaunchSession
                     {
                         Service = this,
@@ -497,7 +497,7 @@ namespace ConnectSdk.Windows.Service
 
             var appId = launchSession.AppId;
             var sessionId = launchSession.SessionId;
-            var payload = new JsonObject();
+            var payload = new JObject();
 
 
             try
@@ -524,7 +524,7 @@ namespace ConnectSdk.Windows.Service
                 {
                     try
                     {
-                        var jsonObj = (JsonObject)(((LoadEventArgs)loadEventArg).Load.GetPayload());
+                        var jsonObj = (JObject)(((LoadEventArgs)loadEventArg).Load.GetPayload());
 
                         var apps = jsonObj.GetNamedArray("apps");
                         var appList = (from t in apps
@@ -559,7 +559,7 @@ namespace ConnectSdk.Windows.Service
                 (
                 loadEventArg =>
                 {
-                    var jsonObj = (JsonObject)(((LoadEventArgs)loadEventArg).Load.GetPayload());
+                    var jsonObj = (JObject)(((LoadEventArgs)loadEventArg).Load.GetPayload());
                     var appInfo = new AppInfo(jsonObj.GetNamedString("appId"))
                     {
                         Name = jsonObj.GetNamedString("title", ""),
@@ -591,7 +591,7 @@ namespace ConnectSdk.Windows.Service
 
         public ServiceCommand GetAppState(bool subscription, LaunchSession launchSession, ResponseListener listener)
         {
-            var payload = new JsonObject();
+            var payload = new JObject();
 
             try
             {
@@ -606,7 +606,7 @@ namespace ConnectSdk.Windows.Service
             (
                 loadEventArg =>
                 {
-                    var jsonObj = (JsonObject)(((LoadEventArgs)loadEventArg).Load.GetPayload());
+                    var jsonObj = (JObject)(((LoadEventArgs)loadEventArg).Load.GetPayload());
 
                     try
                     {
@@ -615,7 +615,7 @@ namespace ConnectSdk.Windows.Service
                     }
                     catch
                     {
-                        Util.PostError(listener, new ServiceCommandError(0, "Malformed JSONObject"));
+                        Util.PostError(listener, new ServiceCommandError(0, "Malformed JObject"));
                     }
                 },
                 serviceCommandError => Util.PostError(listener, serviceCommandError)
@@ -638,13 +638,13 @@ namespace ConnectSdk.Windows.Service
         public void LaunchBrowser(string url, ResponseListener listener)
         {
             const string uri = "ssap://system.launcher/open";
-            var payload = new JsonObject();
+            var payload = new JObject();
 
             var responseListener = new ResponseListener
                 (
                 loadEventArg =>
                 {
-                    var obj = LoadEventArgs.GetValue<JsonObject>(loadEventArg);
+                    var obj = LoadEventArgs.GetValue<JObject>(loadEventArg);
                     var launchSession = new LaunchSession
                     {
                         Service = this,
@@ -679,7 +679,7 @@ namespace ConnectSdk.Windows.Service
 
         public void LaunchYouTube(string contentId, float startTime, ResponseListener listener)
         {
-            var ps = new JsonObject();
+            var ps = new JObject();
             if (!string.IsNullOrEmpty(contentId))
             {
                 if (startTime < 0.0)
@@ -709,7 +709,7 @@ namespace ConnectSdk.Windows.Service
 
         public void LaunchNetflix(string contentId, ResponseListener listener)
         {
-            var ps = new JsonObject();
+            var ps = new JObject();
             var netflixContentId = "m=http%3A%2F%2Fapi.netflix.com%2Fcatalog%2Ftitles%2Fmovies%2F" + contentId + "&source_type=4";
             if (!string.IsNullOrEmpty(contentId))
             {
@@ -732,7 +732,7 @@ namespace ConnectSdk.Windows.Service
 
         public void LaunchHulu(string contentId, ResponseListener listener)
         {
-            var ps = new JsonObject();
+            var ps = new JObject();
             if (!string.IsNullOrEmpty(contentId))
             {
                 try
@@ -756,7 +756,7 @@ namespace ConnectSdk.Windows.Service
         {
             var appInfo = new AppInfo("com.webos.app.discovery") { Name = "LG Store" };
 
-            var ps = new JsonObject();
+            var ps = new JObject();
 
             if (!string.IsNullOrEmpty(appId))
             {
@@ -912,11 +912,11 @@ namespace ConnectSdk.Windows.Service
                     }
                 }
 
-                JsonObject ps = null;
+                JObject ps = null;
                 try
                 {
 
-                    ps = new JsonObject
+                    ps = new JObject
                     {
                         {"target", JsonValue.CreateStringValue(url)},
                         {"title", JsonValue.CreateStringValue(title ?? string.Empty)},
@@ -974,7 +974,7 @@ namespace ConnectSdk.Windows.Service
             }
         }
 
-        private void DisplayMedia(JsonObject ps, ResponseListener listener)
+        private void DisplayMedia(JObject ps, ResponseListener listener)
         {
             const string uri = "ssap://media.viewer/open";
 
@@ -982,7 +982,7 @@ namespace ConnectSdk.Windows.Service
                 (
                 loadEventArg =>
                 {
-                    var obj = (JsonObject)(((LoadEventArgs)loadEventArg).Load.GetPayload());
+                    var obj = (JObject)(((LoadEventArgs)loadEventArg).Load.GetPayload());
 
                     LaunchSession launchSession = LaunchSession.LaunchSessionForAppId(obj.GetNamedString("id"));
                     launchSession.Service = this;
@@ -1016,10 +1016,10 @@ namespace ConnectSdk.Windows.Service
                     }
                 }
 
-                JsonObject ps = null;
+                JObject ps = null;
                 try
                 {
-                    ps = new JsonObject
+                    ps = new JObject
                     {
                         {"target", JsonValue.CreateStringValue(url)},
                         {"title", JsonValue.CreateStringValue(title ?? string.Empty)},
@@ -1080,7 +1080,7 @@ namespace ConnectSdk.Windows.Service
 
         public void CloseMedia(LaunchSession launchSession, ResponseListener listener)
         {
-            var payload = new JsonObject();
+            var payload = new JObject();
 
             try
             {
@@ -1130,7 +1130,7 @@ namespace ConnectSdk.Windows.Service
         public void SetChannel(ChannelInfo channelInfo, ResponseListener listener)
         {
             const string uri = "ssap://tv/openChannel";
-            var payload = new JsonObject();
+            var payload = new JObject();
 
             try
             {
@@ -1156,7 +1156,7 @@ namespace ConnectSdk.Windows.Service
             (
                 loadEventArg =>
                 {
-                    var jsonObj = (JsonObject)(((LoadEventArgs)loadEventArg).Load.GetPayload());
+                    var jsonObj = (JObject)(((LoadEventArgs)loadEventArg).Load.GetPayload());
                     var channel = ParseRawChannelData(jsonObj);
                     Util.PostSuccess(listener, channel);
                 },
@@ -1171,7 +1171,7 @@ namespace ConnectSdk.Windows.Service
             return request;
         }
 
-        private ChannelInfo ParseRawChannelData(JsonObject channelRawData)
+        private ChannelInfo ParseRawChannelData(JObject channelRawData)
         {
             string channelName = null;
             string channelId = null;
@@ -1252,7 +1252,7 @@ namespace ConnectSdk.Windows.Service
             (
                 loadEventArg =>
                 {
-                    var jsonObj = (JsonObject)(((LoadEventArgs)loadEventArg).Load.GetPayload());
+                    var jsonObj = (JObject)(((LoadEventArgs)loadEventArg).Load.GetPayload());
 
                     var channels = jsonObj.GetNamedArray("channelList");
                     var channelList = new List<ChannelInfo>();
@@ -1301,7 +1301,7 @@ namespace ConnectSdk.Windows.Service
                 (
                 loadEventArg =>
                 {
-                    var jsonObj = (JsonObject) (((LoadEventArgs) loadEventArg).Load.GetPayload());
+                    var jsonObj = (JObject) (((LoadEventArgs) loadEventArg).Load.GetPayload());
                     var jsonChannel = jsonObj.GetNamedObject("channel");
                     var channelInfo = ParseRawChannelData(jsonObj);
                     var programList = jsonObj.GetNamedArray("programList");
@@ -1337,7 +1337,7 @@ namespace ConnectSdk.Windows.Service
             (
                 loadEventArg =>
                 {
-                    var jsonObj = (JsonObject)(((LoadEventArgs)loadEventArg).Load.GetPayload());
+                    var jsonObj = (JObject)(((LoadEventArgs)loadEventArg).Load.GetPayload());
                     var statusobj = jsonObj.GetNamedObject("status3D");
                     var status = statusobj.GetNamedBoolean("status", false);
 
@@ -1391,7 +1391,7 @@ namespace ConnectSdk.Windows.Service
 
         public void ShowToast(string message, string iconData, string iconExtension, ResponseListener listener)
         {
-            var payload = new JsonObject();
+            var payload = new JObject();
             try
             {
                 payload.Add("message", JsonValue.CreateStringValue(message));
@@ -1409,14 +1409,14 @@ namespace ConnectSdk.Windows.Service
             SendToast(payload, listener);
         }
 
-        public void ShowClickableToastForApp(string message, AppInfo appInfo, JsonObject ps, ResponseListener listener)
+        public void ShowClickableToastForApp(string message, AppInfo appInfo, JObject ps, ResponseListener listener)
         {
             ShowClickableToastForApp(message, appInfo, ps, null, null, listener);
         }
 
-        public void ShowClickableToastForApp(string message, AppInfo appInfo, JsonObject ps, string iconData, string iconExtension, ResponseListener listener)
+        public void ShowClickableToastForApp(string message, AppInfo appInfo, JObject ps, string iconData, string iconExtension, ResponseListener listener)
         {
-            var payload = new JsonObject();
+            var payload = new JObject();
 
             try
             {
@@ -1430,7 +1430,7 @@ namespace ConnectSdk.Windows.Service
 
                 if (appInfo != null)
                 {
-                    var onClick = new JsonObject {{"appId", JsonValue.CreateStringValue(appInfo.Id)}};
+                    var onClick = new JObject {{"appId", JsonValue.CreateStringValue(appInfo.Id)}};
                     if (ps != null)
                     {
                         onClick.Add("params", ps);
@@ -1454,7 +1454,7 @@ namespace ConnectSdk.Windows.Service
         public void ShowClickableToastForUrl(string message, string url, string iconData, string iconExtension,
             ResponseListener listener)
         {
-            var payload = new JsonObject();
+            var payload = new JObject();
 
             try
             {
@@ -1468,7 +1468,7 @@ namespace ConnectSdk.Windows.Service
 
                 if (url != null)
                 {
-                    var onClick = new JsonObject {{"target", JsonValue.CreateStringValue(url)}};
+                    var onClick = new JObject {{"target", JsonValue.CreateStringValue(url)}};
                     payload.Add("onClick", onClick);
                 }
             }
@@ -1481,7 +1481,7 @@ namespace ConnectSdk.Windows.Service
         }
 
 
-        private void SendToast(JsonObject payload, ResponseListener listener)
+        private void SendToast(JObject payload, ResponseListener listener)
         {
             if (!payload.ContainsKey("iconData"))
             {
@@ -1555,7 +1555,7 @@ namespace ConnectSdk.Windows.Service
         {
             const string uri = "ssap://tv/switchInput";
 
-            var payload = new JsonObject();
+            var payload = new JObject();
 
             try
             {
@@ -1586,7 +1586,7 @@ namespace ConnectSdk.Windows.Service
             (
             loadEventArg =>
             {
-                var res = LoadEventArgs.GetValue<JsonObject>(loadEventArg);
+                var res = LoadEventArgs.GetValue<JObject>(loadEventArg);
                 if (res != null)
                 {
                     var devices = res.GetNamedArray("devices");
@@ -1620,10 +1620,10 @@ namespace ConnectSdk.Windows.Service
                 (
                 loadEventArg =>
                 {
-                    JsonObject obj;
+                    JObject obj;
                     if (loadEventArg is LoadEventArgs)
-                        obj = (loadEventArg as LoadEventArgs).Load.GetPayload() as JsonObject;
-                    else obj = (JsonObject)loadEventArg;
+                        obj = (loadEventArg as LoadEventArgs).Load.GetPayload() as JObject;
+                    else obj = (JObject)loadEventArg;
 
                     if (obj != null)
                     {
@@ -1675,10 +1675,10 @@ namespace ConnectSdk.Windows.Service
                 (
                     loadEventArg =>
                     {
-                        JsonObject obj;
+                        JObject obj;
                         if (loadEventArg is LoadEventArgs)
-                            obj = (loadEventArg as LoadEventArgs).Load.GetPayload() as JsonObject;
-                        else obj = (JsonObject)loadEventArg;
+                            obj = (loadEventArg as LoadEventArgs).Load.GetPayload() as JObject;
+                        else obj = (JObject)loadEventArg;
 
                         if (obj != null)
                         {
@@ -1838,10 +1838,10 @@ namespace ConnectSdk.Windows.Service
                 (
                     loadEventArg =>
                     {
-                        JsonObject obj;
+                        JObject obj;
                         if (loadEventArg is LoadEventArgs)
-                            obj = (loadEventArg as LoadEventArgs).Load.GetPayload() as JsonObject;
-                        else obj = (JsonObject)loadEventArg;
+                            obj = (loadEventArg as LoadEventArgs).Load.GetPayload() as JObject;
+                        else obj = (JObject)loadEventArg;
 
                         if (obj != null)
                         {
@@ -1895,10 +1895,10 @@ namespace ConnectSdk.Windows.Service
                 (
                     loadEventArg =>
                     {
-                        JsonObject obj;
+                        JObject obj;
                         if (loadEventArg is LoadEventArgs)
-                            obj = (loadEventArg as LoadEventArgs).Load.GetPayload() as JsonObject;
-                        else obj = (JsonObject)loadEventArg;
+                            obj = (loadEventArg as LoadEventArgs).Load.GetPayload() as JObject;
+                        else obj = (JObject)loadEventArg;
 
                         if (obj != null)
                         {
@@ -1979,7 +1979,7 @@ namespace ConnectSdk.Windows.Service
             LaunchWebApp(webAppId, null, relaunchIfRunning, listener);
         }
 
-        public void LaunchWebApp(string webAppId, JsonObject ps, ResponseListener listener)
+        public void LaunchWebApp(string webAppId, JObject ps, ResponseListener listener)
         {
             if (string.IsNullOrEmpty(webAppId))
             {
@@ -1991,7 +1991,7 @@ namespace ConnectSdk.Windows.Service
             var webAppSession = WebAppSessions.ContainsKey(webAppId) ? WebAppSessions[webAppId] : null;
 
             const string uri = "ssap://webapp/launchWebApp";
-            var payload = new JsonObject();
+            var payload = new JObject();
 
             try
             {
@@ -2010,10 +2010,10 @@ namespace ConnectSdk.Windows.Service
             (
                 loadEventArg =>
                 {
-                    JsonObject obj;
+                    JObject obj;
                     if (loadEventArg is LoadEventArgs)
-                        obj = (loadEventArg as LoadEventArgs).Load.GetPayload() as JsonObject;
-                    else obj = (JsonObject)loadEventArg;
+                        obj = (loadEventArg as LoadEventArgs).Load.GetPayload() as JObject;
+                    else obj = (JObject)loadEventArg;
 
                     LaunchSession launchSession;
 
@@ -2047,7 +2047,7 @@ namespace ConnectSdk.Windows.Service
             request.Send();
         }
 
-        public void LaunchWebApp(string webAppId, JsonObject ps, bool relaunchIfRunning, ResponseListener listener)
+        public void LaunchWebApp(string webAppId, JObject ps, bool relaunchIfRunning, ResponseListener listener)
         {
             if (webAppId == null)
             {
@@ -2132,8 +2132,8 @@ namespace ConnectSdk.Windows.Service
 
             if (webAppSession != null && webAppSession.IsConnected())
             {
-                var serviceCommand = new JsonObject();
-                var closeCommand = new JsonObject();
+                var serviceCommand = new JObject();
+                var closeCommand = new JObject();
 
                 try
                 {
@@ -2174,7 +2174,7 @@ namespace ConnectSdk.Windows.Service
                 //    webAppSession.DisconnectFromWebApp();
 
                 const string uri = "ssap://webapp/closeWebApp";
-                var payload = new JsonObject();
+                var payload = new JObject();
 
                 try
                 {
@@ -2223,7 +2223,7 @@ namespace ConnectSdk.Windows.Service
             var idKey = tidKey;
 
             const string uri = "ssap://webapp/connectToApp";
-            var payload = new JsonObject();
+            var payload = new JObject();
 
             try
             {
@@ -2244,7 +2244,7 @@ namespace ConnectSdk.Windows.Service
                     var loadEventArgs = loadEventArg as LoadEventArgs;
                     if (loadEventArgs != null)
                     {
-                        var jsonObj = (JsonObject)(loadEventArgs.Load.GetPayload());
+                        var jsonObj = (JObject)(loadEventArgs.Load.GetPayload());
                         var state = jsonObj.GetNamedString("state");
                         if (!state.Equals("Connected", StringComparison.OrdinalIgnoreCase))
                         {
@@ -2329,7 +2329,7 @@ namespace ConnectSdk.Windows.Service
             }
 
             const string uri = "ssap://webapp/pinWebApp";
-            var payload = new JsonObject();
+            var payload = new JObject();
 
             try
             {
@@ -2348,7 +2348,7 @@ namespace ConnectSdk.Windows.Service
                 {
                     var loadEventArgs = loadEventArg as LoadEventArgs;
                     if (loadEventArgs == null) return;
-                    var jsonObj = (JsonObject)(loadEventArgs.Load.GetPayload());
+                    var jsonObj = (JObject)(loadEventArgs.Load.GetPayload());
                     if (jsonObj.ContainsKey("pairingType"))
                     {
                         NotifyPairingRequired();
@@ -2380,7 +2380,7 @@ namespace ConnectSdk.Windows.Service
             }
 
             const string uri = "ssap://webapp/removePinnedWebApp";
-            var payload = new JsonObject();
+            var payload = new JObject();
 
             try
             {
@@ -2399,7 +2399,7 @@ namespace ConnectSdk.Windows.Service
                 {
                     var loadEventArgs = loadEventArg as LoadEventArgs;
                     if (loadEventArgs == null) return;
-                    var jsonObj = (JsonObject)(loadEventArgs.Load.GetPayload());
+                    var jsonObj = (JObject)(loadEventArgs.Load.GetPayload());
                     if (jsonObj.ContainsKey("pairingType"))
                     {
                         NotifyPairingRequired();
@@ -2428,7 +2428,7 @@ namespace ConnectSdk.Windows.Service
             }
 
             const string uri = "ssap://webapp/isWebAppPinned";
-            var payload = new JsonObject();
+            var payload = new JObject();
 
             try
             {
@@ -2446,7 +2446,7 @@ namespace ConnectSdk.Windows.Service
                 {
                     var loadEventArgs = loadEventArg as LoadEventArgs;
                     if (loadEventArgs == null) return;
-                    var jsonObj = (JsonObject)(loadEventArgs.Load.GetPayload());
+                    var jsonObj = (JObject)(loadEventArgs.Load.GetPayload());
 
                     var status = jsonObj.GetNamedBoolean("pinned");
 
@@ -2535,7 +2535,7 @@ namespace ConnectSdk.Windows.Service
                 {
                     var loadEventArgs = loadEventArg as LoadEventArgs;
                     if (loadEventArgs == null) return;
-                    var jsonObj = (JsonObject) (loadEventArgs.Load.GetPayload());
+                    var jsonObj = (JObject) (loadEventArgs.Load.GetPayload());
                     if (jsonObj.ContainsKey("services"))
                     {
                         listener.OnSuccess(new ServiceCommandError(0, jsonObj.GetNamedArray("services")));
@@ -2560,7 +2560,7 @@ namespace ConnectSdk.Windows.Service
                 {
                     var loadEventArgs = loadEventArg as LoadEventArgs;
                     if (loadEventArgs == null) return;
-                    var jsonObj = (JsonObject) (loadEventArgs.Load.GetPayload());
+                    var jsonObj = (JObject) (loadEventArgs.Load.GetPayload());
                     if (jsonObj.ContainsKey("features"))
                     {
                         listener.OnSuccess(new ServiceCommandError(0, jsonObj.GetNamedArray("features")));

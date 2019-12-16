@@ -19,7 +19,7 @@
  * limitations under the License.
  */
 #endregion
-using System;
+using System;using Newtonsoft.Json;using Newtonsoft.Json.Linq;
 
 namespace ConnectSdk.Windows.Core
 {
@@ -68,11 +68,11 @@ namespace ConnectSdk.Windows.Core
         /// <summary>
         /// Gets the raw data from the first screen device about the channel. In most cases, this is a Dictionary.
         /// </summary>
-        public JsonObject RawData { get; set; }
+        public JObject RawData { get; set; }
 
-        public JsonObject ToJsonObject()
+        public JObject ToJsonObject()
         {
-            var obj = new JsonObject
+            var obj = new JObject
             {
                 {"name", JsonValue.CreateStringValue(Name)},
                 {"id", JsonValue.CreateStringValue(Id)},

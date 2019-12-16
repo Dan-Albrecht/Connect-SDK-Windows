@@ -19,7 +19,7 @@
  * limitations under the License.
  */
 #endregion
-using System;
+using System;using Newtonsoft.Json;using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Linq;
 using ConnectSdk.Windows.Core;
@@ -116,7 +116,7 @@ namespace ConnectSdk.Windows.Service
             return ServiceDescription;
         }
 
-        public static DeviceService GetService(JsonObject json)
+        public static DeviceService GetService(JObject json)
         {
             DeviceService newServiceClass = null;
 
@@ -304,9 +304,9 @@ namespace ConnectSdk.Windows.Service
         //}
 
 
-        public JsonObject ToJsonObject()
+        public JObject ToJsonObject()
         {
-            var jsonObj = new JsonObject();
+            var jsonObj = new JObject();
 
             try
             {

@@ -33,9 +33,9 @@ namespace ConnectSdk.Windows.Core
             ProgramsList = programList;
         }
 
-        public JsonObject ToJsonObject()
+        public JObject ToJsonObject()
         {
-            var obj = new JsonObject
+            var obj = new JObject
             {
                 {"channel", JsonValue.CreateStringValue(Channel != null ? Channel.ToString() : "")},
                 {"programList", JsonValue.CreateStringValue(ProgramsList != null ? ProgramsList.ToString() : "")}

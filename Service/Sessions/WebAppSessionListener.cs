@@ -19,7 +19,7 @@
  * limitations under the License.
  */
  #endregion
-using System;
+using System;using Newtonsoft.Json;using Newtonsoft.Json.Linq;
 
 namespace ConnectSdk.Windows.Service.Sessions
 {
@@ -29,7 +29,7 @@ namespace ConnectSdk.Windows.Service.Sessions
         /// This method is called when a message is received from a web app.
         /// </summary>
         /// <param name="webAppSession">WebAppSession that corresponds to the web app that sent the message</param>
-        /// <param name="message">Object from the web app, either an String or a JSONObject</param>
+        /// <param name="message">Object from the web app, either an String or a JObject</param>
         void OnReceiveMessage(WebAppSession webAppSession, Object message);
 
         /// <summary>

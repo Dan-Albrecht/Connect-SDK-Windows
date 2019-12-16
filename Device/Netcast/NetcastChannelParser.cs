@@ -19,7 +19,7 @@
  * limitations under the License.
  */
 #endregion
-using System;
+using System;using Newtonsoft.Json;using Newtonsoft.Json.Linq;
 using ConnectSdk.Windows.Core;
 
 namespace ConnectSdk.Windows.Device.Netcast
@@ -27,7 +27,7 @@ namespace ConnectSdk.Windows.Device.Netcast
     public class NetcastChannelParser
     {
         public JsonArray ChannelArray;
-        public JsonObject Channel;
+        public JObject Channel;
 
         public string Value;
 
@@ -62,7 +62,7 @@ namespace ConnectSdk.Windows.Device.Netcast
             return ChannelArray;
         }
 
-        public static ChannelInfo ParseRawChannelData(JsonObject channelRawData)
+        public static ChannelInfo ParseRawChannelData(JObject channelRawData)
         {
             string channelName = null;
             string channelId = null;

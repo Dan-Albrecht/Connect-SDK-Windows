@@ -19,7 +19,7 @@
  * limitations under the License.
  */
 #endregion
-using System;
+using System;using Newtonsoft.Json;using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -182,9 +182,9 @@ namespace ConnectSdk.Windows.Service
             inputPickerSession = null;
         }
 
-        public static JsonObject DiscoveryParameters()
+        public static JObject DiscoveryParameters()
         {
-            var ps = new JsonObject
+            var ps = new JObject
             {
                 {"serviceId", JsonValue.CreateStringValue(Id)},
                 {"filter", JsonValue.CreateStringValue("udap:rootservice")}
@@ -553,8 +553,8 @@ namespace ConnectSdk.Windows.Service
             var appName = HttpMessage.Encode(appInfo.Name);
             var appId = appInfo.Id;
             string contentId = null;
-            JsonObject mps = null;
-            var o = ps as JsonObject;
+            JObject mps = null;
+            var o = ps as JObject;
             if (o != null)
                 mps = o;
 
@@ -609,7 +609,7 @@ namespace ConnectSdk.Windows.Service
 
 
             //        public void onSuccess( AppInfo appInfo) {
-            //            JsonObject jsonObj = new JsonObject();
+            //            JObject jsonObj = new JObject();
 
             //            try {
             //                jsonObj.put("id", appInfo.getId());
@@ -734,10 +734,10 @@ namespace ConnectSdk.Windows.Service
 
                     var strObj = load.Content.ReadAsStringAsync().Result;
 
-                    JsonObject jsonObject;
-                    JsonObject.TryParse(strObj, out jsonObject);
+                    JObject JObject;
+                    JObject.TryParse(strObj, out JObject);
 
-                    //var tarray = jsonObject.GetNamedArray("Channel List", new JsonArray());
+                    //var tarray = JObject.GetNamedArray("Channel List", new JsonArray());
                     var applicationNumber = ParseAppNumberXmlToJson(strObj);
 
                     Util.PostSuccess(listener, applicationNumber);
@@ -1058,7 +1058,7 @@ namespace ConnectSdk.Windows.Service
                     //JSONArray channelArray = parser.getJSONChannelArray();
 
                     //if ( channelArrayLength > 0 ) {
-                    //    JsonObject rawData = (JsonObject) channelArray.get(0);
+                    //    JObject rawData = (JObject) channelArray.get(0);
 
                     //    ChannelInfo channel = NetcastChannelParser.parseRawChannelData(rawData);
 

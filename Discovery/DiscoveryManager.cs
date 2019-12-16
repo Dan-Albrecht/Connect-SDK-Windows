@@ -19,7 +19,7 @@
  * limitations under the License.
  */
  #endregion
-using System;
+using System;using Newtonsoft.Json;using Newtonsoft.Json.Linq;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -545,7 +545,7 @@ namespace ConnectSdk.Windows.Discovery
             //        if (result == null)
             //            return;
 
-            //        var discoveryParameters = (JsonObject)result;
+            //        var discoveryParameters = (JObject)result;
             //        var serviceId = discoveryParameters.GetNamedString("serviceId");
 
             //        if (serviceId.Length == 0)

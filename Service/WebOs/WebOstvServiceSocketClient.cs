@@ -19,7 +19,7 @@
  * limitations under the License.
  */
 #endregion
-using System;
+using System;using Newtonsoft.Json;using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -42,7 +42,7 @@ namespace ConnectSdk.Windows.Service.WebOs
         private static MessageWebSocket messageWebSocket;
         int nextRequestId = 1;
         private State state = State.Initial;
-        JsonObject manifest;
+        JObject manifest;
         private DataWriter dr;
 
         //static int PORT = 3001;
@@ -151,7 +151,7 @@ namespace ConnectSdk.Windows.Service.WebOs
 
         private void SetDefaultManifest()
         {
-            manifest = new JsonObject();
+            manifest = new JObject();
             var permissions = service.GetPermissions();
 
             try
@@ -205,7 +205,7 @@ namespace ConnectSdk.Windows.Service.WebOs
         {
             try
             {
-                var obj = JsonObject.Parse(data);
+                var obj = JObject.Parse(data);
                 HandleMessage(obj);
                 if (!connected) connected = true;
             }
@@ -216,7 +216,7 @@ namespace ConnectSdk.Windows.Service.WebOs
             }
         }
 
-        protected void HandleMessage(JsonObject message)
+        protected void HandleMessage(JObject message)
         {
             try
             {
@@ -320,7 +320,7 @@ namespace ConnectSdk.Windows.Service.WebOs
 
                 if (payload != null)
                 {
-                    var clientKey = ((JsonObject)payload).GetNamedString("client-key");
+                    var clientKey = ((JObject)payload).GetNamedString("client-key");
                     ((WebOsTvServiceConfig)service.ServiceConfig).ClientKey = clientKey;
 
                     HandleRegistered();
@@ -370,7 +370,7 @@ namespace ConnectSdk.Windows.Service.WebOs
             }
             else if ("hello".Equals(type))
             {
-                var jsonObj = (JsonObject)payload;
+                var jsonObj = (JObject)payload;
 
                 if (service.ServiceConfig.ServiceUuid != null)
                 {
@@ -455,7 +455,7 @@ namespace ConnectSdk.Windows.Service.WebOs
             //Locale current = context.getResources().getConfiguration().locale;
             //String appRegion = current.getDisplayCountry();
 
-            var payload = new JsonObject();
+            var payload = new JObject();
             try
             {
                 payload.SetNamedValue("sdkVersion", JsonValue.CreateStringValue(sdkVersion));
@@ -473,7 +473,7 @@ namespace ConnectSdk.Windows.Service.WebOs
 
             var dataId = nextRequestId++;
 
-            var sendData = new JsonObject();
+            var sendData = new JObject();
             try
             {
                 sendData.SetNamedValue("id", JsonValue.CreateNumberValue(dataId));
@@ -508,8 +508,8 @@ namespace ConnectSdk.Windows.Service.WebOs
 
             var command = new ServiceCommand(this, null, null, requestListener) { RequestId = dataId };
 
-            var headers = new JsonObject();
-            var payload = new JsonObject();
+            var headers = new JObject();
+            var payload = new JObject();
 
             try
             {
@@ -611,7 +611,7 @@ namespace ConnectSdk.Windows.Service.WebOs
             var requestId = subscription.RequestId;
 
             if (Requests[requestId] == null) return;
-            var headers = new JsonObject();
+            var headers = new JObject();
 
             try
             {
@@ -632,8 +632,8 @@ namespace ConnectSdk.Windows.Service.WebOs
 
         protected void SendCommandImmediately(ServiceCommand command)
         {
-            var headers = new JsonObject();
-            var payload = (JsonObject)command.Payload;
+            var headers = new JObject();
+            var payload = (JObject)command.Payload;
             var payloadType = "";
 
             try
@@ -711,7 +711,7 @@ namespace ConnectSdk.Windows.Service.WebOs
             return messageWebSocket != null && state != State.Initial;
         }
 
-        public void SendMessage(JsonObject packet, JsonObject payload)
+        public void SendMessage(JObject packet, JObject payload)
         {
             try
             {

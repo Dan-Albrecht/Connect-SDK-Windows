@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System;using Newtonsoft.Json;using Newtonsoft.Json.Linq;
 using System.Net.Http;
 using ConnectSdk.Windows.Service.Capability.Listeners;
 using ConnectSdk.Windows.Service.Command;

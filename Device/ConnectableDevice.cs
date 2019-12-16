@@ -19,7 +19,7 @@
  * limitations under the License.
  */
 #endregion
-using System;
+using System;using Newtonsoft.Json;using Newtonsoft.Json.Linq;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -106,7 +106,7 @@ namespace ConnectSdk.Windows.Device
             Update(description);
         }
 
-        public ConnectableDevice(JsonObject json)
+        public ConnectableDevice(JObject json)
         {
             services = new ConcurrentDictionary<String, DeviceService>();
 
@@ -494,9 +494,9 @@ namespace ConnectSdk.Windows.Device
             LastConnected = description.LastDetection;
         }
 
-        public JsonObject ToJsonObject()
+        public JObject ToJsonObject()
         {
-            var deviceObject = new JsonObject
+            var deviceObject = new JObject
             {
                 {KeyId, JsonValue.CreateStringValue(Id)},
                 {KeyLastIp, JsonValue.CreateStringValue(IpAddress)},
@@ -508,7 +508,7 @@ namespace ConnectSdk.Windows.Device
                 {KeyModelNumber, JsonValue.CreateStringValue(ModelNumber)}
             };
 
-            var jsonServices = new JsonObject();
+            var jsonServices = new JObject();
             foreach (var service in services.Values)
             {
                 var serviceObject = service.ToJsonObject();

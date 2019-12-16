@@ -31,11 +31,11 @@ namespace ConnectSdk.Windows.Core
         public string Name { get; set; }
         public bool Connected { get; set; }
         public string IconUrl { get; set; }
-        public JsonObject RawData { get; set; }
+        public JObject RawData { get; set; }
 
-        public JsonObject ToJsonObject()
+        public JObject ToJsonObject()
         {
-            var obj = new JsonObject
+            var obj = new JObject
             {
                 {"id", JsonValue.CreateStringValue(Id)},
                 {"name", JsonValue.CreateStringValue(Name)},
@@ -48,7 +48,7 @@ namespace ConnectSdk.Windows.Core
 
         public static ExternalInputInfo FromJson(string json)
         {
-            var jobj = JsonObject.Parse(json);
+            var jobj = JObject.Parse(json);
             var ei = new ExternalInputInfo
             {
                 Id = jobj.GetNamedString("id", ""),

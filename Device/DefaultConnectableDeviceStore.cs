@@ -19,7 +19,7 @@
  * limitations under the License.
  */
 #endregion
-using System;
+using System;using Newtonsoft.Json;using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Linq;
 using ConnectSdk.Windows.Core;
@@ -75,8 +75,8 @@ namespace ConnectSdk.Windows.Device
         public long MaxStoreDuration = TimeSpan.TicksPerDay * 3 / TimeSpan.TicksPerSecond;
         public string FileFullPath { get; set; }
 
-        private JsonObject deviceStore;
-        private JsonObject storedDevices;
+        private JObject deviceStore;
+        private JObject storedDevices;
         private readonly Dictionary<string, ConnectableDevice> activeDevices = new Dictionary<string, ConnectableDevice>();
 
         private bool waitToWrite;
@@ -102,7 +102,7 @@ namespace ConnectSdk.Windows.Device
 
             if (storedDevices == null)
             {
-                storedDevices = new JsonObject();
+                storedDevices = new JObject();
             }
             var storedDevice = storedDevices.Keys.Contains(device.Id) ? storedDevices.GetNamedObject(device.Id) : null;
 
@@ -146,7 +146,7 @@ namespace ConnectSdk.Windows.Device
             if (device.LastDetection > 0)
                 storedDevice.SetNamedValue(ConnectableDevice.KeyLastDetected, JsonValue.CreateNumberValue(device.LastDetection));
 
-            var tempServices = storedDevice.GetNamedObject(ConnectableDevice.KeyServices) ?? new JsonObject();
+            var tempServices = storedDevice.GetNamedObject(ConnectableDevice.KeyServices) ?? new JObject();
 
             foreach (var service in device.Services)
             {
@@ -169,12 +169,12 @@ namespace ConnectSdk.Windows.Device
         public void RemoveAll()
         {
             activeDevices.Clear();
-            storedDevices = new JsonObject();
+            storedDevices = new JObject();
 
             Store();
         }
 
-        public JsonObject GetStoredDevices()
+        public JObject GetStoredDevices()
         {
             return storedDevices;
         }
@@ -223,7 +223,7 @@ namespace ConnectSdk.Windows.Device
             //return activeDevices.Values.SelectMany(device => device.Services).Any(service => uuid.Equals(service.ServiceDescription.Uuid)) ? foundDevice : foundDevice;
         }
 
-        private JsonObject GetStoredDevice(string uuidParam)
+        private JObject GetStoredDevice(string uuidParam)
         {
             var foundDevice = storedDevices.GetNamedObject(uuidParam, null);
 
@@ -263,13 +263,13 @@ namespace ConnectSdk.Windows.Device
             Created = Util.GetTime();
             Updated = Util.GetTime();
 
-            storedDevices = new JsonObject();
+            storedDevices = new JObject();
 
             var value = Storage.Current.GetValueOrDefault(Storage.StoredDevicesKeyName, string.Empty);
-            JsonObject data;
-            if (!JsonObject.TryParse(value, out data)) return;
+            JObject data;
+            if (!JObject.TryParse(value, out data)) return;
 
-            storedDevices = data.GetNamedObject(KeyDevices, null) ?? new JsonObject();
+            storedDevices = data.GetNamedObject(KeyDevices, null) ?? new JObject();
 
             Version = (int)data.GetNamedNumber(KeyVersion, CurrentVersion);
             Created = (long)data.GetNamedNumber(KeyCreated, 0);
@@ -280,7 +280,7 @@ namespace ConnectSdk.Windows.Device
         {
             Updated = Util.GetTime();
 
-            deviceStore = new JsonObject
+            deviceStore = new JObject
             {
                 {KeyVersion, JsonValue.CreateNumberValue(Version)},
                 {KeyCreated, JsonValue.CreateNumberValue(Created)},

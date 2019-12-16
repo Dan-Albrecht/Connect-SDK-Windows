@@ -19,7 +19,7 @@
  * limitations under the License.
  */
 #endregion
-using System;
+using System;using Newtonsoft.Json;using Newtonsoft.Json.Linq;
 using ConnectSdk.Windows.Discovery;
 using ConnectSdk.Windows.Service.Command;
 
@@ -70,7 +70,7 @@ namespace ConnectSdk.Windows.Service.WebOs
                 listener.OnConnectionFailure(service, new Exception(error.GetCode().ToString()));
         }
 
-        public bool OnReceiveMessage(JsonObject message)
+        public bool OnReceiveMessage(JObject message)
         {
             return true;
         }

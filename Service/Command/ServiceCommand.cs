@@ -19,7 +19,7 @@
  * limitations under the License.
  */
 #endregion
-using System;
+using System;using Newtonsoft.Json;using Newtonsoft.Json.Linq;
 using System.Net.Http;
 using ConnectSdk.Windows.Service.Capability.Listeners;
 
@@ -58,7 +58,7 @@ namespace ConnectSdk.Windows.Service.Command
             HttpMethod = TypePost;
         }
 
-        public ServiceCommand(IServiceCommandProcessor service, string uri, JsonObject payload, ResponseListener listener)
+        public ServiceCommand(IServiceCommandProcessor service, string uri, JObject payload, ResponseListener listener)
         {
             Service = service;
             Target = uri;

@@ -19,7 +19,7 @@
  * limitations under the License.
  */
  #endregion
-using System;
+using System;using Newtonsoft.Json;using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 
 namespace ConnectSdk.Windows.Service

@@ -19,7 +19,7 @@
  * limitations under the License.
  */
 #endregion
-using System;
+using System;using Newtonsoft.Json;using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 
 namespace ConnectSdk.Windows.Service.Config
@@ -51,7 +51,7 @@ namespace ConnectSdk.Windows.Service.Config
             IpAddress = ipAddress;
         }
 
-        public ServiceDescription(JsonObject json)
+        public ServiceDescription(JObject json)
         {
             LastDetection = double.MaxValue;
             ServiceFilter = json.GetNamedString(KeyFilter);
@@ -99,14 +99,14 @@ namespace ConnectSdk.Windows.Service.Config
 
         public string ServiceUri { get; set; }
 
-        public static ServiceDescription GetDescription(JsonObject json)
+        public static ServiceDescription GetDescription(JObject json)
         {
             return new ServiceDescription(json);
         }
 
-        public JsonObject ToJsonObject()
+        public JObject ToJsonObject()
         {
-            var jsonObj = new JsonObject();
+            var jsonObj = new JObject();
 
             try
             {

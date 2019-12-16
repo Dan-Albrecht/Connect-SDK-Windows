@@ -19,7 +19,7 @@
  * limitations under the License.
  */
 #endregion
-using System;
+using System;using Newtonsoft.Json;using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Text;
 using ConnectSdk.Windows.Core;
@@ -90,7 +90,7 @@ namespace ConnectSdk.Windows.Service.WebOs
             String uri;
             var typeTest = toSend[0];
 
-            var payload = new JsonObject();
+            var payload = new JObject();
 
             if (typeTest.Equals(EnterKey))
             {
@@ -165,7 +165,7 @@ namespace ConnectSdk.Windows.Service.WebOs
             (
                 loadEventArg =>
                 {
-                    var jsonObj = LoadEventArgs.GetValue<JsonObject>(loadEventArg);
+                    var jsonObj = LoadEventArgs.GetValue<JObject>(loadEventArg);
 
                     var keyboard = parseRawKeyboardData(jsonObj);
 
@@ -181,7 +181,7 @@ namespace ConnectSdk.Windows.Service.WebOs
             return subscription;
         }
 
-        private TextInputStatusInfo parseRawKeyboardData(JsonObject rawData)
+        private TextInputStatusInfo parseRawKeyboardData(JObject rawData)
         {
             var focused = false;
             String contentType = null;

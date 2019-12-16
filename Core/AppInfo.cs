@@ -67,7 +67,7 @@ namespace ConnectSdk.Windows.Core
         /// <summary>
         /// Gets or sets the raw data from the first screen device about the app.
         /// </summary>
-        public JsonObject RawData { get; set; }
+        public JObject RawData { get; set; }
 
         /// <summary>
         /// Url of the app icon
@@ -95,9 +95,9 @@ namespace ConnectSdk.Windows.Core
             port = portParam;
         }
 
-        public JsonObject ToJsonObject()
+        public JObject ToJsonObject()
         {
-            var obj = new JsonObject
+            var obj = new JObject
             {
                 {"name", JsonValue.CreateStringValue(name)},
                 {"id", JsonValue.CreateStringValue(id)}

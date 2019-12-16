@@ -19,7 +19,7 @@
  * limitations under the License.
  */
 #endregion
-using System;
+using System;using Newtonsoft.Json;using Newtonsoft.Json.Linq;
 using System.Collections.Concurrent;
 using ConnectSdk.Windows.Core;
 using ConnectSdk.Windows.Service.Capability;
@@ -83,7 +83,7 @@ namespace ConnectSdk.Windows.Service.Sessions
         //    Connected = connected;
         //}
 
-        public void HandleMediaEvent(JsonObject payload)
+        public void HandleMediaEvent(JObject payload)
         {
             var type = payload.GetNamedString("type");
             if (type.Length == 0)
@@ -133,7 +133,7 @@ namespace ConnectSdk.Windows.Service.Sessions
             mFullAppId = fullAppId;
         }
 
-        public void HandleMediaCommandResponse(JsonObject payload)
+        public void HandleMediaCommandResponse(JObject payload)
         {
             var requestId = payload.GetNamedString("requestId");
             if (requestId.Length == 0)
@@ -325,7 +325,7 @@ namespace ConnectSdk.Windows.Service.Sessions
             SendP2PMessage(message, listener);
         }
 
-        public override void SendMessage(JsonObject message, ResponseListener listener)
+        public override void SendMessage(JObject message, ResponseListener listener)
         {
             if (message == null || message.Count == 0)
             {
@@ -339,15 +339,15 @@ namespace ConnectSdk.Windows.Service.Sessions
 
         private void SendP2PMessage(Object message, ResponseListener listener)
         {
-            var payload = new JsonObject();
+            var payload = new JObject();
 
             try
             {
                 payload.Add("type", JsonValue.CreateStringValue("p2p"));
                 payload.Add("to", JsonValue.CreateStringValue(GetFullAppId()));
-                if (message is JsonObject)
+                if (message is JObject)
                     //todo: check if this is the fix
-                    payload.Add("payload", (message as JsonObject));
+                    payload.Add("payload", (message as JObject));
                 else
                     payload.Add("payload", JsonValue.CreateStringValue(message.ToString()));
             }
@@ -411,11 +411,11 @@ namespace ConnectSdk.Windows.Service.Sessions
             var requestIdNumber = GetNextId();
             var requestId = String.Format("req{0}", requestIdNumber);
 
-            JsonObject message = null;
+            JObject message = null;
             try
             {
-                message = new JsonObject {{"contentType", JsonValue.CreateStringValue(NamespaceKey + "mediaCommand")}};
-                var mediaCommandObject = new JsonObject
+                message = new JObject {{"contentType", JsonValue.CreateStringValue(NamespaceKey + "mediaCommand")}};
+                var mediaCommandObject = new JObject
                 {
                     {"type", JsonValue.CreateStringValue("seek")},
                     {"position", JsonValue.CreateNumberValue((int)(position/1000))},
@@ -441,11 +441,11 @@ namespace ConnectSdk.Windows.Service.Sessions
             var requestIdNumber = GetNextId();
             var requestId = String.Format("req{0}", requestIdNumber);
 
-            JsonObject message = null;
+            JObject message = null;
             try
             {
-                message = new JsonObject {{"contentType", JsonValue.CreateStringValue(NamespaceKey + "mediaCommand")}};
-                var mediaCommandObject = new JsonObject
+                message = new JObject {{"contentType", JsonValue.CreateStringValue(NamespaceKey + "mediaCommand")}};
+                var mediaCommandObject = new JObject
                 {
                     {"type", JsonValue.CreateStringValue("getPosition")},
                     {"requestId", JsonValue.CreateStringValue(requestId)}
@@ -465,7 +465,7 @@ namespace ConnectSdk.Windows.Service.Sessions
                 {
                     try
                     {
-                        var position = ((loadEventArg as LoadEventArgs).Load.GetPayload() as JsonObject).GetNamedNumber("position");
+                        var position = ((loadEventArg as LoadEventArgs).Load.GetPayload() as JObject).GetNamedNumber("position");
 
                         if (listener != null)
                             listener.OnSuccess(position * 1000);
@@ -507,11 +507,11 @@ namespace ConnectSdk.Windows.Service.Sessions
             var requestIdNumber = GetNextId();
             var requestId = String.Format("req{0}", requestIdNumber);
 
-            JsonObject message = null;
+            JObject message = null;
             try
             {
-                message = new JsonObject {{"contentType", JsonValue.CreateStringValue(NamespaceKey + "mediaCommand")}};
-                var mediaCommandObject = new JsonObject
+                message = new JObject {{"contentType", JsonValue.CreateStringValue(NamespaceKey + "mediaCommand")}};
+                var mediaCommandObject = new JObject
                 {
                     {"type", JsonValue.CreateStringValue("getDuration")},
                     {"requestId", JsonValue.CreateStringValue(requestId)}
@@ -531,7 +531,7 @@ namespace ConnectSdk.Windows.Service.Sessions
                 {
                     try
                     {
-                        var position = ((JsonObject)((loadEventArg as LoadEventArgs).Load.GetPayload())).GetNamedNumber("duration");
+                        var position = ((JObject)((loadEventArg as LoadEventArgs).Load.GetPayload())).GetNamedNumber("duration");
 
                         if (listener != null)
                             listener.OnSuccess(position * 1000);
@@ -577,11 +577,11 @@ namespace ConnectSdk.Windows.Service.Sessions
             var requestId = String.Format("req{0}", requestIdNumber);
 
 
-            JsonObject message = null;
+            JObject message = null;
             try
             {
-                message = new JsonObject {{"contentType", JsonValue.CreateStringValue(NamespaceKey + "mediaCommand")}};
-                var mediaCommandObject = new JsonObject
+                message = new JObject {{"contentType", JsonValue.CreateStringValue(NamespaceKey + "mediaCommand")}};
+                var mediaCommandObject = new JObject
                 {
                     {"type", JsonValue.CreateStringValue("getPlayState")},
                     {"requestId", JsonValue.CreateStringValue(requestId)}
@@ -600,7 +600,7 @@ namespace ConnectSdk.Windows.Service.Sessions
                 {
                     try
                     {
-                        var position = ((JsonObject)loadEventArg).GetNamedNumber("duration");
+                        var position = ((JObject)loadEventArg).GetNamedNumber("duration");
 
                         if (listener != null)
                             listener.OnSuccess(position * 1000);
@@ -693,11 +693,11 @@ namespace ConnectSdk.Windows.Service.Sessions
             var requestIdNumber = GetNextId();
             var requestId = String.Format("req{0}", requestIdNumber);
 
-            JsonObject message = null;
+            JObject message = null;
             try
             {
-                message = new JsonObject {{"contentType", JsonValue.CreateStringValue(NamespaceKey + "mediaCommand")}};
-                var mediaCommandObject = new JsonObject
+                message = new JObject {{"contentType", JsonValue.CreateStringValue(NamespaceKey + "mediaCommand")}};
+                var mediaCommandObject = new JObject
                 {
                     {"mimeType", JsonValue.CreateStringValue(mimeType)},
                     {"requestId", JsonValue.CreateStringValue(requestId)},
@@ -750,11 +750,11 @@ namespace ConnectSdk.Windows.Service.Sessions
             var requestIdNumber = GetNextId();
             var requestId = String.Format("req{0}", requestIdNumber);
 
-            JsonObject message = null;
+            JObject message = null;
             try
             {
-                message = new JsonObject {{"contentType", JsonValue.CreateStringValue(NamespaceKey + "mediaCommand")}};
-                var mediaCommandObject = new JsonObject
+                message = new JObject {{"contentType", JsonValue.CreateStringValue(NamespaceKey + "mediaCommand")}};
+                var mediaCommandObject = new JObject
                 {
                     {"mimeType", JsonValue.CreateStringValue(mimeType)},
                     {"requestId", JsonValue.CreateStringValue(requestId)},
@@ -853,7 +853,7 @@ namespace ConnectSdk.Windows.Service.Sessions
             {
             }
 
-            public bool OnReceiveMessage(JsonObject payload)
+            public bool OnReceiveMessage(JObject payload)
             {
                 try
                 {
@@ -871,7 +871,7 @@ namespace ConnectSdk.Windows.Service.Sessions
 
                 if (message != null)
                 {
-                    var messageJson = (JsonObject) message;
+                    var messageJson = (JObject) message;
 
                     var contentType = messageJson.GetNamedString("contentType");
                     var contentTypeIndex = contentType.IndexOf("connectsdk.", StringComparison.OrdinalIgnoreCase);

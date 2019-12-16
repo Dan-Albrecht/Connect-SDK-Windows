@@ -58,9 +58,9 @@ namespace ConnectSdk.Windows.Device
         void UpdateDevice(ConnectableDevice device);
 
         /// <summary>
-        /// A JSONObject of all ConnectableDevices in the ConnectableDeviceStore. To gt a strongly-typed ConnectableDevice object, use the `getDevice(string);` method.
+        /// A JObject of all ConnectableDevices in the ConnectableDeviceStore. To gt a strongly-typed ConnectableDevice object, use the `getDevice(string);` method.
         /// </summary>
-        JsonObject GetStoredDevices();
+        JObject GetStoredDevices();
 
         /// <summary>
         /// Gets a ConnectableDevice object for a provided id.  The id may be for the ConnectableDevice object or any of the DeviceServices.

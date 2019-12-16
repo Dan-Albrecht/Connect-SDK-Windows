@@ -19,7 +19,7 @@
  * limitations under the License.
  */
 #endregion
-using System;
+using System;using Newtonsoft.Json;using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using ConnectSdk.Windows.Core;
 using ConnectSdk.Windows.Service.Capability.Listeners;
@@ -42,7 +42,7 @@ namespace ConnectSdk.Windows.Service.Sessions
             return launchSession;
         }
 
-        public static LaunchSession LaunchSessionFromJsonObject(JsonObject json)
+        public static LaunchSession LaunchSessionFromJsonObject(JObject json)
         {
             var launchSession = new LaunchSession();
             try
@@ -63,9 +63,9 @@ namespace ConnectSdk.Windows.Service.Sessions
             Service.CloseLaunchSession(this, listener);
         }
 
-        public JsonObject ToJsonObject()
+        public JObject ToJsonObject()
         {
-            var obj = new JsonObject
+            var obj = new JObject
             {
                 {"appId", JsonValue.CreateStringValue(AppId)},
                 {"sessionId", JsonValue.CreateStringValue(SessionId)},
@@ -77,7 +77,7 @@ namespace ConnectSdk.Windows.Service.Sessions
 
             if (RawData == null) return obj;
             // ReSharper disable once AssignNullToNotNullAttribute
-            if (RawData is JsonObject) obj.Add("rawData", JsonValue.CreateStringValue(RawData as string));
+            if (RawData is JObject) obj.Add("rawData", JsonValue.CreateStringValue(RawData as string));
             var list = RawData as List<object>;
             if (list != null)
             {
@@ -93,7 +93,7 @@ namespace ConnectSdk.Windows.Service.Sessions
             return obj;
         }
 
-        public void FromJsonObject(JsonObject obj)
+        public void FromJsonObject(JObject obj)
         {
             AppId = obj.GetNamedString("appId");
             SessionId = obj.GetNamedString("sessionId");

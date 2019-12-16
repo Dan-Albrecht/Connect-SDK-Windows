@@ -19,7 +19,7 @@
  * limitations under the License.
  */
 #endregion
-using System;
+using System;using Newtonsoft.Json;using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -109,7 +109,7 @@ namespace ConnectSdk.Windows.Service
         //    const string method = "Stop";
         //    const string instanceId = "0";
 
-        //    JsonObject payload = GetMethodBody(instanceId, method);
+        //    JObject payload = GetMethodBody(instanceId, method);
 
         //    var request = new ServiceCommand(this, method, payload, listener);
         //    request.Send();
@@ -927,9 +927,9 @@ namespace ConnectSdk.Windows.Service
 
         #endregion
 
-        public static JsonObject DiscoveryParameters()
+        public static JObject DiscoveryParameters()
         {
-            var ps = new JsonObject();
+            var ps = new JObject();
 
             try
             {
@@ -1094,7 +1094,7 @@ namespace ConnectSdk.Windows.Service
             SetCapabilities(capabilities);
         }
 
-        public LaunchSession DecodeLaunchSession(string type, JsonObject sessionObj)
+        public LaunchSession DecodeLaunchSession(string type, JObject sessionObj)
         {
             if (type != "dlna") return null;
 

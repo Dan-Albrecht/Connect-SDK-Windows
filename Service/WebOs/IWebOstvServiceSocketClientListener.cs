@@ -31,6 +31,6 @@ namespace ConnectSdk.Windows.Service.WebOs
 
         void OnBeforeRegister(PairingType pairingType);
         void OnRegistrationFailed(ServiceCommandError error);
-        bool OnReceiveMessage(JsonObject message);
+        bool OnReceiveMessage(JObject message);
     }
 }

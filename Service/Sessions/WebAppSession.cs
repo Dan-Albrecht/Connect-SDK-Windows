@@ -19,7 +19,7 @@
  * limitations under the License.
  */
 #endregion
-using System;
+using System;using Newtonsoft.Json;using Newtonsoft.Json.Linq;
 using ConnectSdk.Windows.Core;
 using ConnectSdk.Windows.Service.Capability;
 using ConnectSdk.Windows.Service.Capability.Listeners;
@@ -105,7 +105,7 @@ namespace ConnectSdk.Windows.Service.Sessions
                 listener.OnError(ServiceCommandError.NotSupported());
         }
 
-        public virtual void SendMessage(JsonObject message, ResponseListener listener)
+        public virtual void SendMessage(JObject message, ResponseListener listener)
         {
             if (listener != null)
             {

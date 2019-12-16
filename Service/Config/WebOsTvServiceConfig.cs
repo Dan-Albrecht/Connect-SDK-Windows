@@ -19,7 +19,7 @@
  * limitations under the License.
  */
 #endregion
-using System;
+using System;using Newtonsoft.Json;using Newtonsoft.Json.Linq;
 
 namespace ConnectSdk.Windows.Service.Config
 {
@@ -61,7 +61,7 @@ namespace ConnectSdk.Windows.Service.Config
             //Cert = loadCertificateFromPEM(cert);
         }
 
-        public WebOsTvServiceConfig(JsonObject json) :
+        public WebOsTvServiceConfig(JObject json) :
             base(json)
         {
 
@@ -112,7 +112,7 @@ namespace ConnectSdk.Windows.Service.Config
         //    return null;
         //}
 
-        public override JsonObject ToJsonObject()
+        public override JObject ToJsonObject()
         {
             var jsonObj = base.ToJsonObject();
 

@@ -38,7 +38,7 @@ namespace ConnectSdk.Windows.Core
         /// <summary>
         /// Gets or sets the raw data from the first screen device about the text input status. 
         /// </summary>
-        public JsonObject RawData { get; set; }
+        public JObject RawData { get; set; }
 
         public TextInputStatusInfo()
         {

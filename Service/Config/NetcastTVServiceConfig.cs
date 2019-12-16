@@ -19,7 +19,7 @@
  * limitations under the License.
  */
 #endregion
-using System;
+using System;using Newtonsoft.Json;using Newtonsoft.Json.Linq;
 
 namespace ConnectSdk.Windows.Service.Config
 {
@@ -49,13 +49,13 @@ namespace ConnectSdk.Windows.Service.Config
             PairingKey = pairingKey;
         }
 
-        public NetcastTvServiceConfig(JsonObject json)
+        public NetcastTvServiceConfig(JObject json)
             : base(json)
         {
             PairingKey = json.GetNamedString(KeyPairing);
         }
 
-        public override JsonObject ToJsonObject()
+        public override JObject ToJsonObject()
         {
             var jsonObj = base.ToJsonObject();
 

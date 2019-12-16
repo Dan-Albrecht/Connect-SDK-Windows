@@ -32,9 +32,9 @@ namespace ConnectSdk.Windows.Service.Capability
         void ShowToast(string message, ResponseListener listener);
         void ShowToast(string message, string iconData, string iconExtension, ResponseListener listener);
 
-        void ShowClickableToastForApp(string message, AppInfo appInfo, JsonObject ps, ResponseListener listener);
+        void ShowClickableToastForApp(string message, AppInfo appInfo, JObject ps, ResponseListener listener);
 
-        void ShowClickableToastForApp(string message, AppInfo appInfo, JsonObject ps, string iconData,string iconExtension, ResponseListener listener);
+        void ShowClickableToastForApp(string message, AppInfo appInfo, JObject ps, string iconData,string iconExtension, ResponseListener listener);
 
         void ShowClickableToastForUrl(string message, string url, ResponseListener listener);
 
