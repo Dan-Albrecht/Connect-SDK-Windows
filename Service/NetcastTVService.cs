@@ -38,6 +38,7 @@ using ConnectSdk.Windows.Service.Command;
 using ConnectSdk.Windows.Service.Config;
 using ConnectSdk.Windows.Service.NetCast;
 using ConnectSdk.Windows.Service.Sessions;
+using System.Drawing;
 
 namespace ConnectSdk.Windows.Service
 {

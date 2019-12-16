@@ -20,6 +20,8 @@
  */
 #endregion
 
+using System.Drawing;
+
 namespace ConnectSdk.Windows.Service.Capability
 {
     public interface IMouseControl : ICapabilityMethod

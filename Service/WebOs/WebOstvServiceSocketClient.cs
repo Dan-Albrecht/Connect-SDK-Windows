@@ -604,7 +604,13 @@ namespace ConnectSdk.Windows.Service.WebOs
 
             }
         }
-        
+
+        public void SendCommand(Command.ServiceCommand command)
+        {
+            // BUGBUG: Do we need this version?
+            throw new NotImplementedException("Is this needed");
+        }
+
         public void Unsubscribe(UrlServiceSubscription subscription)
         {
             var requestId = subscription.RequestId;

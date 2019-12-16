@@ -5,6 +5,7 @@ using ConnectSdk.Windows.Service.Command;
 
 namespace ConnectSdk.Windows.Service
 {
+    // BUGBUG: De deupe the two ServiceCommand
     public class ServiceCommand
     {
         public static string TypeReq = "request";

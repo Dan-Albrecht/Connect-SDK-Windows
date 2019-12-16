@@ -251,6 +251,10 @@ namespace ConnectSdk.Windows.Service
 
         }
 
+        public void SendCommand(Command.ServiceCommand command)
+        {
+        }
+
         protected virtual void UpdateCapabilities()
         {
 

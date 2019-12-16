@@ -33,6 +33,7 @@ using ConnectSdk.Windows.Service.Command;
 using ConnectSdk.Windows.Service.Config;
 using ConnectSdk.Windows.Service.Sessions;
 using ConnectSdk.Windows.Service.WebOs;
+using System.Drawing;
 
 namespace ConnectSdk.Windows.Service
 {
