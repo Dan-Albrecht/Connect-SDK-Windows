@@ -348,7 +348,7 @@ namespace ConnectSdk.Windows.Service
             var payload = new JObject();
             try
             {
-                payload.Add("mute", JsonValue.CreateBooleanValue(isMute));
+                payload.Add("mute", isMute);
             }
             // ReSharper disable once EmptyGeneralCatchClause
             catch (Exception)

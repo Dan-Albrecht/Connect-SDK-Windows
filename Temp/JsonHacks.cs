@@ -42,6 +42,16 @@ namespace ConnectSdk
             jObject[name] = value;
         }
 
+        public static void SetNamedValue(this JObject jObject, string name, int value)
+        {
+            jObject[name] = value;
+        }
+
+        public static void SetNamedValue(this JObject jObject, string name, JObject value)
+        {
+            jObject[name] = value;
+        }
+
         public static string Stringify(this JObject jObject)
         {
             return jObject.ToString();

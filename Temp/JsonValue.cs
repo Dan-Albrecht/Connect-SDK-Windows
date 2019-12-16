@@ -16,5 +16,15 @@ namespace ConnectSdk
         {
             return lastConnected;
         }
+
+        internal static int CreateNumberValue(int lastConnected)
+        {
+            return lastConnected;
+        }
+
+        internal static bool CreateBooleanValue(bool shouldLoop)
+        {
+            return shouldLoop;
+        }
     }
 }
