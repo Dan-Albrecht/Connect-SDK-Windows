@@ -35,16 +35,17 @@ using ConnectSdk.Windows.Service.Config;
 
 namespace ConnectSdk.Windows.Service.WebOs
 {
+    // BUGBUG: Hack off
     public class WebOstvServiceSocketClient : IServiceCommandProcessor
     {
         private readonly StringBuilder log = new StringBuilder();
         readonly WebOstvService service;
 
-        private static MessageWebSocket messageWebSocket;
+        //private static MessageWebSocket messageWebSocket;
         int nextRequestId = 1;
         private State state = State.Initial;
         JObject manifest;
-        private DataWriter dr;
+        //private DataWriter dr;
 
         //static int PORT = 3001;
         private const int Port = 3000;
@@ -64,7 +65,7 @@ namespace ConnectSdk.Windows.Service.WebOs
             destinationUri = uri;
             this.service = service;
             State = State.Initial;
-            CreateSocket();
+            //CreateSocket();
             SetDefaultManifest();
         }
 
@@ -83,7 +84,7 @@ namespace ConnectSdk.Windows.Service.WebOs
 
         private bool connected;
 
-        private void CreateSocket()
+        /*private void CreateSocket()
         {
             messageWebSocket = new MessageWebSocket();
             messageWebSocket.Control.MessageType = SocketMessageType.Utf8;
@@ -109,7 +110,7 @@ namespace ConnectSdk.Windows.Service.WebOs
                 HandleConnectionLost(false, null);
                 messageWebSocket = new MessageWebSocket();
             };
-        }
+        }*/
 
         public static Uri GetUri(WebOstvService service)
         {
@@ -118,9 +119,9 @@ namespace ConnectSdk.Windows.Service.WebOs
             return uri;
         }
 
-        public async void Connect()
+        public void Connect()
         {
-            try
+            /*try
             {
                 state = State.Connecting;
                 if (messageWebSocket.Information.LocalAddress == null)
@@ -134,7 +135,7 @@ namespace ConnectSdk.Windows.Service.WebOs
                 // ReSharper disable once UnusedVariable
                 var status = WebSocketError.GetStatus(ex.GetBaseException().HResult);
                 throw;
-            }
+            }*/
         }
 
         public void Disconnect()
@@ -676,7 +677,7 @@ namespace ConnectSdk.Windows.Service.WebOs
             {
                 if (payload != null)
                 {
-                    var message = payload.Stringify();
+                    /*var message = payload.Stringify();
                     try
                     {
                         messageWebSocket.Control.MessageType = SocketMessageType.Utf8;
@@ -691,7 +692,7 @@ namespace ConnectSdk.Windows.Service.WebOs
                     catch
                     {
 
-                    }
+                    }*/
                 }
             }
             else
@@ -717,7 +718,8 @@ namespace ConnectSdk.Windows.Service.WebOs
 
         public bool IsConnected()
         {
-            return messageWebSocket != null && state != State.Initial;
+            //return messageWebSocket != null && state != State.Initial;
+            return false;
         }
 
         public void SendMessage(JObject packet, JObject payload)
@@ -741,12 +743,12 @@ namespace ConnectSdk.Windows.Service.WebOs
                 Logger.Current.AddMessage("webOS Socket [OUT]: " + message);
                 try
                 {
-                    messageWebSocket.Control.MessageType = SocketMessageType.Utf8;
+                    /*messageWebSocket.Control.MessageType = SocketMessageType.Utf8;
                     messageWebSocket.OutputStream.FlushAsync().GetResults();
                     if (dr == null)
                         dr = new DataWriter(messageWebSocket.OutputStream);
                     dr.WriteString(message);
-                    dr.StoreAsync();
+                    dr.StoreAsync();*/
                 }
                 // ReSharper disable once EmptyGeneralCatchClause
                 catch
